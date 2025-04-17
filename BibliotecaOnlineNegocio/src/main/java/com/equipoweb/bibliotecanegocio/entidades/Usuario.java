@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -35,8 +37,12 @@ public class Usuario implements Serializable {
     
     @Column(name="telefono", nullable=false, unique=true)
     private String telefono;
+    
+    @Column(name="contrasena", nullable=false)
+    private String contrasena;
 
-    @Column(name="fecha_nacimiento", nullable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="fecha_nacimiento", nullable=false, updatable = false)
     private Date fechaNacimiento;
     
     public Usuario() {
@@ -150,6 +156,20 @@ public class Usuario implements Serializable {
      */
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    /**
+     * @return the contrasena
+     */
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    /**
+     * @param contrasena the contrasena to set
+     */
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
 }
