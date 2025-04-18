@@ -8,4 +8,16 @@
             30
         </session-timeout>
     </session-config>
+    
+    <!--
+    <servlet>
+        <servlet-name>SvUsuario</servlet-name>
+        <servlet-class>com.equipoweb.bibliotecaonline.servlets.SvUsuario</servlet-class>
+    </servlet>
+
+    
+    <servlet-mapping>
+        <servlet-name>SvUsuario</servlet-name>
+        <url-pattern>/usuario</url-pattern>
+    </servlet-mapping>-->
 </web-app>

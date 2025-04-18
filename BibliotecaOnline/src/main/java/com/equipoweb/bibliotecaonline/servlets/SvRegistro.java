@@ -6,19 +6,19 @@ package com.equipoweb.bibliotecaonline.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Servlet encargado de mostrar la pagina de registro del usuario y procesar
  * el registro del mismo.
  * @author neri
  */
-@WebServlet(name = "SvSignUp", urlPatterns = {"/signup"})
-public class SvSignUp extends HttpServlet {
+@WebServlet(name = "SvRegistro", urlPatterns = {"/registro"})
+public class SvRegistro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
