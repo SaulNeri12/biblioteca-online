@@ -50,5 +50,5 @@ public interface IUsuariosDAO {
      * @return true si las credenciales son correctas y se puede iniciar sesión, false en caso contrario.
      * @throws DAOException si ocurre un error al verificar las credenciales.
      */
-    boolean iniciarSesion(String email, String contrasena) throws DAOException;
+    Usuario iniciarSesion(String email, String contrasena) throws DAOException;
 }

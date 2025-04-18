@@ -4,6 +4,11 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
+import com.equipoweb.bibliotecanegocio.dao.FabricaUsuariosDAO;
+import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
+import com.equipoweb.bibliotecanegocio.dao.interfaces.IUsuariosDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Usuario;
+import com.equipoweb.bibliotecaonline.servlets.errores.ErrorRespuesta;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet encargado de mostrar la pantalla de inicio de sesion y procesar el
@@ -19,6 +25,8 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "SvLogin", urlPatterns = {"/login"})
 public class SvLogin extends HttpServlet {
+    
+    private IUsuariosDAO usuariosDAO = FabricaUsuariosDAO.getInstance().crearDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,7 +81,30 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String email = request.getParameter("email");
+        String contrasena = request.getParameter("contrasena");
+        
+        Usuario usuario = null;
+        
+        try {
+            usuario = this.usuariosDAO.iniciarSesion(email, contrasena);
+        } catch (DAOException ex) {
+           // preparamos la respuesta json
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            
+            ErrorRespuesta error = new ErrorRespuesta(ex.getMessage());
+            
+            response.getWriter().write(error.toString());
+            return;
+        }
+        
+        // guardamos la sesion
+        HttpSession session = request.getSession();
+        session.setAttribute("usuario", usuario);
+        
+        response.sendRedirect("index.jsp");
     }
 
     /**
