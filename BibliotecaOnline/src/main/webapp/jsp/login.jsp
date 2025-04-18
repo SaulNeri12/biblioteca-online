@@ -13,6 +13,15 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     </head>
     <body>
+        
+        <%
+            // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
+            if (session.getAttribute("usuario") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            }
+        %>
+        
         <h1>Inicio de Sesión</h1>
         
         <p class="parrafo">sheesh</p>

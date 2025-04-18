@@ -23,6 +23,12 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>com.equipoweb</groupId>
+            <artifactId>BibliotecaOnlineNegocio</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     
     <build>

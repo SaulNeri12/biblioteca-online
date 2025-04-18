@@ -4,6 +4,7 @@
     Author     : neri
 --%>
 
+<%@page import="com.equipoweb.bibliotecanegocio.entidades.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,21 @@
     <body>
         <h1>Hello World!</h1>
         <p>this is my JSP</p>
+        
+        <% 
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            if (usuario != null) {
+        %>
+        <h1>Datos de la sesion</h1>
+        
+        <p>Nombre: <%= usuario.getNombre() %></p>
+        <p>Email: <%= usuario.getEmail() %></p>
+        <p>Telefono: <%= usuario.getTelefono()  %></p>
+        <p>Fecha de Nacimiento: <%= usuario.getFechaNacimiento() %></p>
+        
+        <%  } else { %>
+        <p> TEST: no hay sesion activa</p>
+        <%  } %>
         
         <a href="/BibliotecaOnline/login.jsp">Iniciar Sesión</a>
         <a href="/BibliotecaOnline/registro.jsp">Crear Cuenta</a>

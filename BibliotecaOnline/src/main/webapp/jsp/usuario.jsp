@@ -4,6 +4,7 @@
     Author     : nerix
 --%>
 
+<%@page import="com.equipoweb.bibliotecanegocio.entidades.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,11 +13,20 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>Datos del usuario registrado:</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Teléfono:</strong> ${telefono}</p>
-        <p><strong>Fecha de nacimiento:</strong> ${fechaNac}</p>
-        <p><strong>Contraseña:</strong> ${contrasena}</p> <!-- Ojo, solo para fines de prueba -->
+        <% 
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            if (usuario != null) {
+        %>
+        <h1>Datos de la sesion</h1>
+        
+        <p>Nombre: <%= usuario.getNombre() %></p>
+        <p>Email: <%= usuario.getEmail() %></p>
+        <p>Telefono: <%= usuario.getTelefono()  %></p>
+        <p>Fecha de Nacimiento: <%= usuario.getFechaNacimiento() %></p>
+        
+        <%  } else { %>
+        <p> TEST: no hay sesion activa</p>
+        <%  } %>
+        
     </body>
 </html>
