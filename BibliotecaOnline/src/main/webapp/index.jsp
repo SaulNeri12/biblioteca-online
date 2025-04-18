@@ -31,7 +31,7 @@
         <p> TEST: no hay sesion activa</p>
         <%  } %>
         
-        <a href="/BibliotecaOnline/login.jsp">Iniciar Sesión</a>
-        <a href="/BibliotecaOnline/registro.jsp">Crear Cuenta</a>
+        <a href="/BibliotecaOnline/login">Iniciar Sesión</a>
+        <a href="/BibliotecaOnline/registro">Crear Cuenta</a>
     </body>
 </html>

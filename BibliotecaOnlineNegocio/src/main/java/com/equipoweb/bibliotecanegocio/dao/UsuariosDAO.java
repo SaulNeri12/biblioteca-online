@@ -139,7 +139,7 @@ class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public boolean iniciarSesion(String email, String contrasena) throws DAOException {
+    public Usuario iniciarSesion(String email, String contrasena) throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();
 
         try {
@@ -151,8 +151,9 @@ class UsuariosDAO implements IUsuariosDAO {
             query.setParameter("contrasena", contrasena);
 
             Usuario usuario = query.getSingleResult();
-            return usuario != null;
+            return usuario;
         } catch (NoResultException e) {
+            System.out.println(e.getMessage());
             throw new DAOException("El correo o la contraseña son incorrectos.");
         } catch (Exception e) {
             System.out.println("### ERROR DAO iniciarSesion: " + e.getMessage());

@@ -13,19 +13,27 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     </head>
     <body>
-        
+
         <%
             // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
-            if (session.getAttribute("usuario") == null) {
+            if (session.getAttribute("usuario") != null) {
                 response.sendRedirect("index.jsp");
                 return;
             }
         %>
-        
+
         <h1>Inicio de Sesión</h1>
-        
-        <p class="parrafo">sheesh</p>
-        
+
+        <form action="login" method="post">
+            <label for="email">Correo Electrónico:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="contrasena">Contraseña:</label><br>
+            <input type="password" id="contrasena" name="contrasena" required><br><br>
+
+            <button type="submit">Entrar</button>
+        </form>
+
         <script src="${pageContext.request.contextPath}/js/index.js"></script>
     </body>
 </html>
