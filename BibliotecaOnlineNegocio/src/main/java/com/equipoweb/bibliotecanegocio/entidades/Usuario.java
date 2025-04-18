@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,8 +43,13 @@ public class Usuario implements Serializable {
     private String contrasena;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="fecha_nacimiento", nullable=false, updatable = false)
+    @Column(name="fecha_nacimiento", updatable = false)
     private Date fechaNacimiento;
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaNacimiento = new Date();
+    }
     
     public Usuario() {
         

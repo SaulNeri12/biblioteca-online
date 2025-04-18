@@ -4,6 +4,7 @@
  */
 package com.equipoweb.bibliotecanegocio.dao.interfaces;
 
+import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.entidades.Genero;
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface IGeneroDAO {
      *
      * @return una lista de objetos {@link Genero} que representan todos los géneros disponibles.
      */
-    List<Genero> obtenerGenerosTodos();
+    List<Genero> obtenerGenerosTodos() throws DAOException;
 }

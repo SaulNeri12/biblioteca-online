@@ -6,6 +6,7 @@ package com.equipoweb.bibliotecanegocio.dao.interfaces;
 
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.entidades.FavoritoLibro;
+import java.util.List;
 
 /** 
  * Interfaz para la gestión de libros favoritos en la capa de acceso a datos (DAO).
@@ -22,7 +23,7 @@ public interface IFavoritoLibroDAO {
      * @return Un objeto FavoritoLibro que contiene los libros favoritos del usuario.
      * @throws DAOException Si ocurre un error al acceder a la base de datos.
      */
-    FavoritoLibro obtenerFavoritos(Long idUsuario) throws DAOException;
+    List<FavoritoLibro> obtenerFavoritos(Long idUsuario) throws DAOException;
 
     /**
      * Asigna un libro como favorito para un usuario.
