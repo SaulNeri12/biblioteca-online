@@ -13,8 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet encargado de mostrar la pagina de registro del usuario y procesar
- * el registro del mismo.
+ * Servlet encargado de mostrar la pagina de registro del usuario y procesar el
+ * registro del mismo.
+ *
  * @author neri
  */
 @WebServlet(name = "SvRegistro", urlPatterns = {"/registro"})
@@ -58,7 +59,8 @@ public class SvRegistro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        request.getRequestDispatcher("/jsp/registro.jsp").forward(request, response);
     }
 
     /**
@@ -72,7 +74,22 @@ public class SvRegistro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String nombre = request.getParameter("nombre");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        String fechaNac = request.getParameter("fecha_nac");
+        String contrasena = request.getParameter("contrasena");
+        String contrasenaConfirm = request.getParameter("contrasena-confirm");
+
+        request.setAttribute("nombre", nombre);
+        request.setAttribute("email", email);
+        request.setAttribute("telefono", telefono);
+        request.setAttribute("fechaNac", fechaNac);
+        request.setAttribute("contrasena", contrasena); // No recomendado mostrarla normalmente
+
+        // Redireccionar al JSP
+        request.getRequestDispatcher("/jsp/usuario.jsp").forward(request, response);
     }
 
     /**
