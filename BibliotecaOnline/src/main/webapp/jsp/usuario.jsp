@@ -1,7 +1,7 @@
 <%-- 
-    Document   : login
-    Created on : 18 abr 2025, 12:24:32 a.m.
-    Author     : neri
+    Document   : usuario
+    Created on : 18 abr 2025, 12:17:47 p.m.
+    Author     : nerix
 --%>
 
 <%@page import="com.equipoweb.bibliotecanegocio.entidades.Usuario"%>
@@ -10,12 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Inicio</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <p>this is my JSP</p>
-        
         <% 
             Usuario usuario = (Usuario) session.getAttribute("usuario");
             if (usuario != null) {
@@ -31,7 +28,5 @@
         <p> TEST: no hay sesion activa</p>
         <%  } %>
         
-        <a href="/BibliotecaOnline/login.jsp">Iniciar Sesión</a>
-        <a href="/BibliotecaOnline/registro.jsp">Crear Cuenta</a>
     </body>
 </html>

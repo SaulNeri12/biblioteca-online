@@ -76,18 +76,57 @@ class UsuariosDAO implements IUsuariosDAO {
 
         try {
 
+            if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+                throw new DAOException("El nombre es obligatorio.");
+            }
+
+            if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+                throw new DAOException("El correo electrónico es obligatorio.");
+            }
+
+            if (!usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                throw new DAOException("El formato del correo electrónico no es válido.");
+            }
+
+            if (usuario.getTelefono() == null || usuario.getTelefono().trim().isEmpty()) {
+                throw new DAOException("El teléfono es obligatorio.");
+            }
+
+            if (!usuario.getTelefono().matches("^\\d{10}$")) {
+                throw new DAOException("El teléfono debe tener 10 dígitos.");
+            }
+
+            if (usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+                throw new DAOException("La contraseña es obligatoria.");
+            }
+
+            if (usuario.getContrasena().length() < 6) {
+                throw new DAOException("La contraseña debe tener al menos 6 caracteres.");
+            }
+
+            if (usuario.getFechaNacimiento() == null) {
+                throw new DAOException("La fecha de nacimiento es obligatoria.");
+            }
+
             // Validar si ya existe un usuario con el mismo email
             TypedQuery<Usuario> query = em.createQuery(
-                    "SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class);
+                    "SELECT u FROM Usuario u WHERE u.email = :email OR u.telefono = :telefono", Usuario.class);
             query.setParameter("email", usuario.getEmail());
+            query.setParameter("telefono", usuario.getTelefono());
 
             if (!query.getResultList().isEmpty()) {
-                throw new DAOException("Ya existe un usuario registrado con ese email.");
+                throw new DAOException("El correo o teléfono ya está en uso.");
             }
 
             em.getTransaction().begin();
             em.persist(usuario);
             em.getTransaction().commit();
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            
+            throw new DAOException(e.getMessage());
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

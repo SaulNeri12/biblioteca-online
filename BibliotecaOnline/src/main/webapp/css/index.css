@@ -1,0 +1,25 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 18 abr 2025, 12:26:22 p.m.
+    Author     : neri
+*/
+
+:root {
+    --primary-color: #f0f0f0;  /* Color primario */
+    --secondary-color: #2ecc71; /* Color secundario */
+    --font-size: 16px;          /* Tamaño de fuente */
+    --font-family: 'Arial', sans-serif; /* Familia de fuentes */
+    --button-padding: 10px 20px; /* Padding de los botones */
+    --font-color: #303030;
+}
+
+html {
+    color: var(--font-color);
+}
+
+.parrafo {
+    color: yellow;
+}
