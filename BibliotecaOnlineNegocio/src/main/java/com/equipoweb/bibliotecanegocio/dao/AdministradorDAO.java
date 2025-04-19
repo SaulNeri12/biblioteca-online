@@ -8,7 +8,6 @@ import com.equipoweb.bibliotecanegocio.conexion.Conexion;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IAdministradorDAO;
 import com.equipoweb.bibliotecanegocio.entidades.Administrador;
-import com.equipoweb.bibliotecanegocio.entidades.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

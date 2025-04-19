@@ -5,7 +5,6 @@
 package com.equipoweb.bibliotecanegocio.dao.interfaces;
 
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
-import com.equipoweb.bibliotecanegocio.entidades.Genero;
 import com.equipoweb.bibliotecanegocio.entidades.Libro;
 import java.util.List;
 
@@ -55,15 +54,6 @@ public interface ILibroDAO {
      * @throws DAOException si ocurre un error al actualizar el libro.
      */
     void actualizarLibro(Libro libro) throws DAOException;
-
-    /**
-     * Elimina un libro de la base de datos a partir de su identificador único (ID).
-     *
-     * @param id el ID del libro a eliminar.
-     * @return true si el libro fue eliminado correctamente, false en caso contrario.
-     * @throws DAOException si ocurre un error al eliminar el libro.
-     */
-    boolean eliminarLibro(Long id) throws DAOException;
 
     /**
      * Elimina un libro de la base de datos a partir de su código ISBN.
