@@ -7,8 +7,11 @@ package com.equipoweb.bibliotecanegocio.dao;
 import com.equipoweb.bibliotecanegocio.conexion.Conexion;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IAdministradorDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Administrador;
 import com.equipoweb.bibliotecanegocio.entidades.Usuario;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 /**
  * Clase de acceso de datos para la entidad de Administrador, define las 
@@ -53,10 +56,29 @@ class AdministradorDAO implements IAdministradorDAO {
      * @throws DAOException si ocurre un error al verificar las credenciales.
      */
     @Override
-    public Usuario iniciarSesion(String email, String contrasena) throws DAOException {
+    public Administrador iniciarSesion(String email, String contrasena) throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();
-        return null;
+        try {
+            TypedQuery<Administrador> query = em.createQuery(
+                "SELECT a FROM Administrador a WHERE a.correo = :email AND a.contrasena = :contrasena",
+                Administrador.class
+            );
+            
+            query.setParameter("email", email);
+            query.setParameter("contrasena", contrasena);
+
+            return query.getSingleResult(); // credenciales correctas
+        } catch (NoResultException e) {
+            return null; // credenciales incorrectas
+        } catch (Exception e) {
+            throw new DAOException("Error al verificar credenciales");
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
+
 
     
     

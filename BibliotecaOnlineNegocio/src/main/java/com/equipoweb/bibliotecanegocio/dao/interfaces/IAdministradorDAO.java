@@ -5,7 +5,7 @@
 package com.equipoweb.bibliotecanegocio.dao.interfaces;
 
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
-import com.equipoweb.bibliotecanegocio.entidades.Usuario;
+import com.equipoweb.bibliotecanegocio.entidades.Administrador;
 
 /**
  *
@@ -23,5 +23,5 @@ public interface IAdministradorDAO {
      * @return true si las credenciales son correctas y se puede iniciar sesión, false en caso contrario.
      * @throws DAOException si ocurre un error al verificar las credenciales.
      */
-    Usuario iniciarSesion(String email, String contrasena) throws DAOException;
+    Administrador iniciarSesion(String email, String contrasena) throws DAOException;
 }
