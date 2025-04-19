@@ -55,6 +55,9 @@ public class Libro implements Serializable {
     @Column(name = "num_paginas", nullable = false)
     private Integer numPaginas;
 
+    /*
+        TODO: Anadir elimincacion por cascada (favoritos libros y libro genero)
+    */
     @ManyToMany
     @JoinTable(
             name = "libro_genero",
