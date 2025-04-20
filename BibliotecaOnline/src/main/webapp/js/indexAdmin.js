@@ -57,9 +57,9 @@ document.querySelector('form').addEventListener('submit', function(event) {
                     <h3>${libro.nombre}</h3>
                     <p><strong>Autor:</strong> ${libro.autor ? libro.autor.nombre : 'Desconocido'}</p>
                     <p><strong>Género:</strong> ${libro.generos.length > 0 ? libro.generos.join(', ') : 'No disponible'}</p>
-                    <p><strong>Descripción:</strong> ${libro.descripcion}</p
-                    <button class="btn-eliminar"> Eliminar </button>
-                    <button class="btn-editar"> Editar </button>
+                    <p><strong>Descripción:</strong> ${libro.descripcion}</p>
+                    <button class="btn-eliminar" onclick="abrirModalEliminar()"> Eliminar </button>
+                    <button class="btn-editar" onclick="abrirModalEditar()">Editar</button>
                 `;
                 contenedor.appendChild(div);
             });
@@ -68,6 +68,25 @@ document.querySelector('form').addEventListener('submit', function(event) {
             console.error('Error al buscar libros:', error);
         });
 });
+
+
+// Función para abrir la modal de agregar libro
+function abrirModalAgregar() {
+    let modal = document.querySelector('.dialog-agregar');
+    modal.showModal();  // Muestra la modal
+}
+
+// Función para abrir la modal de agregar libro
+function abrirModalEditar() {
+    let modal = document.querySelector('.dialog-editar');
+    modal.showModal();  // Muestra la modal
+}
+
+// Función para abrir la modal de agregar libro
+function abrirModalEliminar() {
+    let modal = document.querySelector('.dialog-eliminacion');
+    modal.showModal();  // Muestra la modal
+}
 
 
 
