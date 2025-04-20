@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author skevi
  */
 @Entity
-@Table(name="administrador")
+@Table(name="administradores")
 public class Administrador implements Serializable{
     
     private static final long serialVersionUID = 1L;

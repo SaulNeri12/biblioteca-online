@@ -49,28 +49,28 @@ class AdministradorDAO implements IAdministradorDAO {
      * administradores para iniciar sesión con el email y la contraseña 
      * proporcionadas.
      *
-     * @param email el correo electrónico del usuario.
+     * @param correo el correo electrónico del usuario.
      * @param contrasena la contraseña del usuario.
      * @return true si las credenciales son correctas y se puede iniciar sesión, false en caso contrario.
      * @throws DAOException si ocurre un error al verificar las credenciales.
      */
     @Override
-    public Administrador iniciarSesion(String email, String contrasena) throws DAOException {
+    public Administrador iniciarSesion(String correo, String contrasena) throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();
         try {
             TypedQuery<Administrador> query = em.createQuery(
-                "SELECT a FROM Administrador a WHERE a.correo = :email AND a.contrasena = :contrasena",
+                "SELECT a FROM Administrador a WHERE a.correo = :correo AND a.contrasena = :contrasena",
                 Administrador.class
             );
             
-            query.setParameter("email", email);
+            query.setParameter("correo", correo);
             query.setParameter("contrasena", contrasena);
 
             return query.getSingleResult(); // credenciales correctas
         } catch (NoResultException e) {
-            return null; // credenciales incorrectas
+            throw new DAOException("No se ha encontrado ningun usuario con el correo proporcionado");
         } catch (Exception e) {
-            throw new DAOException("Error al verificar credenciales");
+            throw new DAOException("Error en correo o contraseña");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
