@@ -70,6 +70,7 @@ class AdministradorDAO implements IAdministradorDAO {
         } catch (NoResultException e) {
             throw new DAOException("Error en correo o contraseña");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new DAOException("Error en correo o contraseña");
         } finally {
             if (em != null && em.isOpen()) {

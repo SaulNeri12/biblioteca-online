@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author skevi
  */
 @Entity
-@Table(name="administradores")
+@Table(name="administrador")
 public class Administrador implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -33,6 +33,17 @@ public class Administrador implements Serializable{
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
+    public Administrador() {
+        
+    }
+
+    public Administrador(String correo, String contrasena) {
+        this.correo = correo;
+        this.contrasena = contrasena;
+    }
+    
+    
+    
     public Long getId() {
         return id;
     }
