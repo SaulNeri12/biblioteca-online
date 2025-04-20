@@ -4,6 +4,7 @@
  */
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -25,12 +26,15 @@ public class Genero implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "nombre", nullable = false)
+    @JsonProperty("nombre")
     private String nombre;
 
     @ManyToMany(mappedBy = "generos")
+    @JsonProperty("libros")
     private List<Libro> libros;
 
     public Genero() {

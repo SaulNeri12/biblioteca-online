@@ -4,6 +4,7 @@
  */
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,12 +26,16 @@ public class Administrador implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
     
+    
     @Column(name = "correo", nullable = false)
+    @JsonProperty("correo")
     private String correo;
     
     @Column(name = "contrasena", nullable = false)
+    @JsonProperty("contrasena")
     private String contrasena;
 
     public Administrador() {
