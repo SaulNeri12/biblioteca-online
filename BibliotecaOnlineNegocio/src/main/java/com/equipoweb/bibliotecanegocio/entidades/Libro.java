@@ -74,6 +74,7 @@ public class Libro implements Serializable {
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "genero_id")
     )
+    @JsonProperty("generos")
     private List<Genero> generos;
 
 

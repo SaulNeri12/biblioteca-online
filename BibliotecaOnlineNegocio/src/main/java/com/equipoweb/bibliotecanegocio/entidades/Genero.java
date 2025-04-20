@@ -4,6 +4,7 @@
  */
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Genero implements Serializable {
     private String nombre;
 
     @ManyToMany(mappedBy = "generos")
-    @JsonProperty("libros")
+    @JsonIgnore
     private List<Libro> libros;
 
     public Genero() {

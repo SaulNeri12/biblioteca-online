@@ -57,7 +57,9 @@ document.querySelector('form').addEventListener('submit', function(event) {
                     <h3>${libro.nombre}</h3>
                     <p><strong>Autor:</strong> ${libro.autor ? libro.autor.nombre : 'Desconocido'}</p>
                     <p><strong>Género:</strong> ${libro.generos.length > 0 ? libro.generos.join(', ') : 'No disponible'}</p>
-                    <p><strong>Descripción:</strong> ${libro.descripcion}</p>
+                    <p><strong>Descripción:</strong> ${libro.descripcion}</p
+                    <button class="btn-eliminar"> Eliminar </button>
+                    <button class="btn-editar"> Editar </button>
                 `;
                 contenedor.appendChild(div);
             });
