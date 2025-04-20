@@ -5,11 +5,15 @@
 
 package com.equipoweb.bibliotecaonline.servlets.errores;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Saul Neri
  */
 public class ErrorRespuesta {
+    
+    @JsonProperty("error")
     private String mensaje;
     
     public ErrorRespuesta() {
