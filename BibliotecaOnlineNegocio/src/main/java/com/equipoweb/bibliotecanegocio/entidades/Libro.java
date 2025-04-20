@@ -4,11 +4,13 @@
  */
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,6 +53,7 @@ public class Libro implements Serializable {
     @ManyToOne
     @JoinColumn(name = "autor_id", nullable = false)
     @JsonProperty("autor")
+    @JsonIgnoreProperties("libros") 
     private Autor autor;
 
     @Column(name = "editorial", nullable = false)
@@ -65,13 +68,14 @@ public class Libro implements Serializable {
     @JsonProperty("num_paginas")
     private Integer numPaginas;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "libro_genero",
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "genero_id")
     )
     private List<Genero> generos;
+
 
     public Libro() {
 

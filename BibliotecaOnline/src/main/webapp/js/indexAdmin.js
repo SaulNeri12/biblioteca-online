@@ -38,7 +38,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const nombre = document.getElementById('nombre').value;
     const genero = document.getElementById('genero').value;
 
-    fetch(`http://localhost:8080/BibliotecaOnline/BuscarLibros?libro=${nombre}&genero=$(genero)}`)
+    fetch(`http://localhost:8080/BibliotecaOnline/BuscarLibros?libro=${nombre}&genero=${genero}`)
         .then(response => response.json())
         .then(libros => {
             const contenedor = document.querySelector('.contenedor-libros');
@@ -54,11 +54,10 @@ document.querySelector('form').addEventListener('submit', function(event) {
                 div.classList.add('tarjeta-libro'); // Para estilos futuros si deseas
 
                 div.innerHTML = `
-                    <h3>${libro.titulo}</h3>
-                    <p><strong>Autor:</strong> ${libro.autor}</p>
-                    <p><strong>Género:</strong> ${libro.genero.nombre}</p>
+                    <h3>${libro.nombre}</h3>
+                    <p><strong>Autor:</strong> ${libro.autor ? libro.autor.nombre : 'Desconocido'}</p>
+                    <p><strong>Género:</strong> ${libro.generos.length > 0 ? libro.generos.join(', ') : 'No disponible'}</p>
                     <p><strong>Descripción:</strong> ${libro.descripcion}</p>
-                    
                 `;
                 contenedor.appendChild(div);
             });
@@ -67,6 +66,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
             console.error('Error al buscar libros:', error);
         });
 });
+
 
 
 
