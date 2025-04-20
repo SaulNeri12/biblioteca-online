@@ -12,6 +12,21 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="BuscarLibros" method="get">
+            <label for="nombre">Nombre del libro:</label><br>
+            <input type="text" id="nombre" name="nombre"><br><br>
+
+            <label for="genero">Género:</label><br>
+            <select id="genero" name="genero">
+                <!-- Aquí se llenarán los géneros con JavaScript -->
+            </select><br><br>
+
+            <button type="submit">Buscar</button>
+        </form>
+        
+        <section class="contenedor-libros"> 
+            <!-- Aquí se llenarán los libros consultados con JavaScript -->
+        </section>>
+
     </body>
 </html>

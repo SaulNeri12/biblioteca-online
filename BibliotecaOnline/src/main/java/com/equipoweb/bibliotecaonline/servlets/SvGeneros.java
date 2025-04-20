@@ -4,13 +4,19 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
+import com.equipoweb.bibliotecanegocio.dao.FabricaGeneroDAO;
+import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
+import com.equipoweb.bibliotecanegocio.dao.interfaces.IGeneroDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Genero;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Servlet encargado de proveer los generos de libros disponibles en la aplicacion.
@@ -19,33 +25,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "SvGeneros", urlPatterns = {"/generos"})
 public class SvGeneros extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SvGeneros</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SvGeneros at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    IGeneroDAO generosDAO = FabricaGeneroDAO.getInstance().crearDAO();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -57,7 +38,27 @@ public class SvGeneros extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            List<Genero> generos = generosDAO.obtenerGenerosTodos();
+
+            // Convertimos la lista de géneros a un arreglo de nombres (solo los nombres para el ComboBox)
+            List<String> nombres = generos.stream()
+                    .map(Genero::getNombre)
+                    .collect(Collectors.toList());
+
+            // Convertimos la lista a JSON usando Jackson
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(nombres);
+
+            response.getWriter().write(json);
+
+        } catch (DAOException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
     /**
@@ -71,7 +72,7 @@ public class SvGeneros extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**
