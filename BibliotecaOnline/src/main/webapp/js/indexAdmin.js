@@ -3,15 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/gulpfile.js to edit this template
  */
 
-window.onload = () => {
-    fetch('generos') // <-- nombre del servlet
+
+/**
+ * Ejecucion inicial
+ * @returns {undefined}
+ */
+document.addEventListener("DOMContentLoaded", event => {
+    fetch('http://localhost:8080/BibliotecaOnline/generos') // <-- nombre del servlet
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('genero');
             // Opción vacía para "todos"
             const opcionVacia = document.createElement('option');
             opcionVacia.value = "";
-            opcionVacia.text = "-- Todos --";
+            opcionVacia.text = "Todos";
             select.appendChild(opcionVacia);
 
             data.forEach(genero => {
@@ -22,6 +27,6 @@ window.onload = () => {
             });
         })
         .catch(error => console.error('Error al cargar géneros:', error));
-};
+});
 
 
