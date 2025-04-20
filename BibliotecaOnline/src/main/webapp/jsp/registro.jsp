@@ -13,7 +13,7 @@
     </head>
     <body>
         <%
-            // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
+            //si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
             if (session.getAttribute("usuario") != null) {
                 response.sendRedirect("index.jsp");
                 return;
