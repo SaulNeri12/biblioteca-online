@@ -29,4 +29,47 @@ document.addEventListener("DOMContentLoaded", event => {
         .catch(error => console.error('Error al cargar géneros:', error));
 });
 
+/**
+ * 
+ */
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+
+    const nombre = document.getElementById('nombre').value;
+    const genero = document.getElementById('genero').value;
+
+    fetch(`http://localhost:8080/BibliotecaOnline/BuscarLibros?libro=${nombre}&genero=$(genero)}`)
+        .then(response => response.json())
+        .then(libros => {
+            const contenedor = document.querySelector('.contenedor-libros');
+            contenedor.innerHTML = ''; // Limpiar resultados anteriores
+
+            if (libros.length === 0) {
+                contenedor.innerHTML = '<p>No se encontraron libros.</p>';
+                return;
+            }
+
+            libros.forEach(libro => {
+                const div = document.createElement('div');
+                div.classList.add('tarjeta-libro'); // Para estilos futuros si deseas
+
+                div.innerHTML = `
+                    <h3>${libro.titulo}</h3>
+                    <p><strong>Autor:</strong> ${libro.autor}</p>
+                    <p><strong>Género:</strong> ${libro.genero.nombre}</p>
+                    <p><strong>Descripción:</strong> ${libro.descripcion}</p>
+                    
+                `;
+                contenedor.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error al buscar libros:', error);
+        });
+});
+
+
+
+
+
 

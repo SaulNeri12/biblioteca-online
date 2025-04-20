@@ -26,7 +26,7 @@
         
         <section class="contenedor-libros"> 
             <!-- Aquí se llenarán los libros consultados con JavaScript -->
-        </section>>
+        </section>
         
         <script src="${pageContext.request.contextPath}/js/indexAdmin.js"></script>
         
