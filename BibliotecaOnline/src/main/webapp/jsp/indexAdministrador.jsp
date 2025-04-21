@@ -42,7 +42,7 @@
                 <div class="modal-botones">
                     <form method="dialog">
                         <button id="btn-cancelar">Cancelar</button>
-                        <button id="btn-confirmar">Confirmar</button>
+                        <button id="btn-confirmar" onclick="eliminarLibro()">Confirmar</button>
                     </form>
                 </div>
               </div>
@@ -53,7 +53,6 @@
         <dialog class="dialog-agregar" closedby="any">
             <div id="modalAgregarLibro" class="modal">
                 <div class="modal-contenido">
-                <span class="cerrar" onclick="cerrarModalAgregar()">&times;</span>
                 <h2>Agregar Libro</h2>
                 <form id="formAgregarLibro">
                   <label>ISBN:</label>
@@ -81,12 +80,17 @@
                   <input type="number" id="agregar-numPaginas" required><br>
 
                   <label>Géneros:</label>
-                  <select id="agregar-generos" multiple required></select><br>
-
-                  <button type="submit">Guardar Libro</button>
+                  <select id="agregar-genero1" required>
+                        <!-- Aquí se llenarán los géneros con JavaScript -->
+                    </select>
+                  <label>y</label>
+                  <select id="agregar-genero2" required>
+                        <!-- Aquí se llenarán los géneros con JavaScript -->
+                  </select>
+                  <button type="submit" onclick="agregarLibro()">Agregar</button>
                 </form>
                 <form method="dialog">
-                    <button>Cerrar</button>
+                    <button>Cancelar</button>
                 </form>
               </div>
             </div>
@@ -117,22 +121,30 @@
                   <input type="text" id="editar-editorial" required><br>
 
                   <label>Año de Publicación:</label>
-                  <input type="number" id="editar-anio" required min="1000" max="2100"><br>
+                  <input type="number" id="editar-anio" required min="1" max="2030"><br>
 
                   <label>Número de Páginas:</label>
                   <input type="number" id="editar-numPaginas" required><br>
 
                   <label>Géneros:</label>
-                  <select id="editar-generos" multiple required></select><br>
+                  <select id="editar-genero1" required>
+                        <!-- Aquí se llenarán los géneros con JavaScript -->
+                    </select>
+                  <label>y</label>
+                  <select id="editar-genero2" required>
+                        <!-- Aquí se llenarán los géneros con JavaScript -->
+                  </select>
 
-                  <button type="submit">Guardar Libro</button>
+                  <button type="submit" onclick="editarLibro()">Editar</button>
                 </form>
                 <form method="dialog">
-                    <button>Cerrar</button>
+                    <button>Cancelar</button>
                 </form>
               </div>
         </dialog>
         
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="${pageContext.request.contextPath}/js/indexAdmin.js"></script>
         
     </body>

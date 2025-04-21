@@ -8,7 +8,6 @@ import com.equipoweb.bibliotecanegocio.dao.FabricaAdministradorDAO;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IAdministradorDAO;
 import com.equipoweb.bibliotecanegocio.entidades.Administrador;
-import com.equipoweb.bibliotecanegocio.entidades.Usuario;
 import com.equipoweb.bibliotecaonline.servlets.errores.ErrorRespuesta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,21 +26,6 @@ public class SvLoginAdmin extends HttpServlet {
 
     private IAdministradorDAO administradorDAO = FabricaAdministradorDAO.getInstance().crearDAO();
     
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -81,16 +65,6 @@ public class SvLoginAdmin extends HttpServlet {
             response.getWriter().write(error.toString());
             return;
         }
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 
 }

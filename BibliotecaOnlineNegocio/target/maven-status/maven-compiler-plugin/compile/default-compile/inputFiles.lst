@@ -6,6 +6,7 @@ C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\ma
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\FabricaLibroDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\interfaces\IUsuariosDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\FavoritoLibroDAO.java
+C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\PruebaGeneros.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\FabricaFavoritoLibroDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\LibroDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\entidades\Administrador.java
@@ -28,4 +29,5 @@ C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\ma
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\FabricaUsuariosDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\GeneroDAO.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\entidades\Libro.java
+C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\PruebaAutores.java
 C:\Users\skevi\Documents\GitHub\biblioteca-online\BibliotecaOnlineNegocio\src\main\java\com\equipoweb\bibliotecanegocio\dao\excepciones\DAOException.java

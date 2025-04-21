@@ -1,9 +1,11 @@
 com\equipoweb\bibliotecanegocio\entidades\Autor.class
 com\equipoweb\bibliotecanegocio\entidades\FavoritoLibro_.class
+com\equipoweb\bibliotecanegocio\PruebaGeneros.class
 com\equipoweb\bibliotecanegocio\entidades\Genero_.class
 com\equipoweb\bibliotecanegocio\entidades\Usuario_.class
 com\equipoweb\bibliotecanegocio\PruebasBuscador.class
 com\equipoweb\bibliotecanegocio\dao\AdministradorDAO.class
+com\equipoweb\bibliotecanegocio\PruebaAutores.class
 com\equipoweb\bibliotecanegocio\dao\FavoritoLibroDAO.class
 com\equipoweb\bibliotecanegocio\entidades\Genero.class
 com\equipoweb\bibliotecanegocio\PruebaInicioSesion.class
