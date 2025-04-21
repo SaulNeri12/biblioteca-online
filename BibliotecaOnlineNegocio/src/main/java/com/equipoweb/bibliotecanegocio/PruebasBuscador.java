@@ -24,8 +24,8 @@ public class PruebasBuscador {
         ILibroDAO libroDAO = FabricaLibroDAO.getInstance().crearDAO();
         
         // Parámetros de prueba: puedes cambiar para probar diferentes casos
-        String nombreLibro = ""; // Prueba parcial
-        String genero = "FANTASIA"; // Nombre exacto del género
+        String nombreLibro = "a"; // Prueba parcial
+        String genero = ""; // Nombre exacto del género
         String nombreAutor = ""; // Vacío, no se filtra por autor
 
         try {
