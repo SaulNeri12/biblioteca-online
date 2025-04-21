@@ -106,7 +106,7 @@ class LibroDAO implements ILibroDAO {
                 query.setParameter("nombreAutor", "%" + nombreAutor + "%");
             }
             
-            query.setMaxResults(8); 
+            query.setMaxResults(20); 
             
             return query.getResultList();
             

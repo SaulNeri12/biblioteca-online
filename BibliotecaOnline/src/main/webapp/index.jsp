@@ -24,14 +24,37 @@
         
         <p>Nombre: <%= usuario.getNombre() %></p>
         <p>Email: <%= usuario.getEmail() %></p>
-        <p>Telefono: <%= usuario.getTelefono()  %></p>
+        <p>Telefono: <%= usuario.getTelefono() %></p>
         <p>Fecha de Nacimiento: <%= usuario.getFechaNacimiento() %></p>
         
         <%  } else { %>
         <p> TEST: no hay sesion activa</p>
         <%  } %>
         
+        <!--
+            <div class="carta-libro" data-numero-carta="">
+                <div class="portada-contenedor">
+                    <img class="portada-libro" href="">
+                </div>
+                <div class="informacion-libro">
+                    <div class="contenedor-titulo-libro">
+                        <p class="titulo-libro">Libro X</p>
+                        <p class="autor-libro">Autor X</p>
+                    </div>
+                    <div class="pie-carta-libro">
+                        <p class="libro-generos">Genero 1, Genero 2, Genero 3</p>
+                    </div>
+                </div>
+            </div>
+        -->
+        
+        <div id="contenedor-libros">
+            
+        </div>
+        
         <a href="/BibliotecaOnline/login">Iniciar Sesión</a>
         <a href="/BibliotecaOnline/registro">Crear Cuenta</a>
+        
+        <script src="${pageContext.request.contextPath}/js/cargar-libros.js"></script>
     </body>
 </html>

@@ -68,10 +68,10 @@ class AdministradorDAO implements IAdministradorDAO {
 
             return query.getSingleResult(); // credenciales correctas
         } catch (NoResultException e) {
-            throw new DAOException("Error en correo o contraseña");
+            throw new DAOException("El correo o la contraseña son incorrectos, por favor ingrese las credenciales correctas.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new DAOException("Error en correo o contraseña");
+            throw new DAOException("Ha ocurrido un error, por favor intente mas tarde.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
