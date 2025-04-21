@@ -10,12 +10,14 @@ import com.equipoweb.bibliotecanegocio.dao.interfaces.ILibroDAO;
 import com.equipoweb.bibliotecanegocio.entidades.Autor;
 import com.equipoweb.bibliotecanegocio.entidades.Genero;
 import com.equipoweb.bibliotecanegocio.entidades.Libro;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
  * Servlet encargado de manejar las operaciones CRUD con los libros de la aplicacion.
  * @author neri
  */
-@WebServlet(name = "SvLibro", urlPatterns = {"/libro"})
+@WebServlet(name = "SvLibro", urlPatterns = {"/AgregarLibro"})
 public class SvGuardarLibro extends HttpServlet {
 
     private final ILibroDAO libroDAO = FabricaLibroDAO.getInstance().crearDAO();
@@ -43,48 +45,24 @@ public class SvGuardarLibro extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String isbn = request.getParameter("isbn");
-        String nombre = request.getParameter("nombre");
-        String descripcion = request.getParameter("descripcion");
-        String contenidoAdulto = request.getParameter("contenidoAdulto");
-        String idAutorStr = request.getParameter("idAutor");
-        String editorial = request.getParameter("editorial");
-        String anioStr = request.getParameter("anio");
-        String numPaginasStr = request.getParameter("numPaginas");
-        String[] idsGeneros = request.getParameterValues("idGeneros[]");
-
-        if (isbn == null || isbn.isBlank()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ISBN es obligatorio.");
-            return;
+        // Leer el cuerpo de la solicitud como un string
+        StringBuilder sb = new StringBuilder();
+        String line;
+        BufferedReader reader = request.getReader();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
         }
 
+        // Loguear lo que llega del cliente
+        System.out.println("Recibido: " + sb.toString());
+
+        // Deserializar el JSON a un objeto Libro
+        String jsonString = sb.toString();
+        ObjectMapper mapper = new ObjectMapper();  // Usando Jackson para deserializar
+
         try {
-            Libro libro = new Libro();
-            libro.setIsbn(isbn);
-            libro.setNombre(nombre);
-            libro.setDescripcion(descripcion);
-            libro.setContenidoAdulto(Boolean.valueOf(contenidoAdulto));
-            libro.setEditorial(editorial);
-            libro.setAnio(Integer.valueOf(anioStr));
-            libro.setNumPaginas(Integer.valueOf(numPaginasStr));
-
-            // Crear el autor con solo su ID
-            Autor autor = new Autor();
-            autor.setId(Long.valueOf(idAutorStr));
-            libro.setAutor(autor);
-
-            // Crear la lista de géneros a partir de los IDs
-            if (idsGeneros != null) {
-                List<Genero> generos = Arrays.stream(idsGeneros)
-                        .map(id -> {
-                            Genero genero = new Genero();
-                            genero.setId(Long.valueOf(id));
-                            return genero;
-                        })
-                        .collect(Collectors.toList());
-
-                libro.setGeneros(generos);
-            }
+            Libro libro = mapper.readValue(jsonString, Libro.class);
+            System.out.println("Libro deserializado: " + libro);
 
             // Guardar libro
             libroDAO.registrarLibro(libro);
@@ -98,7 +76,12 @@ public class SvGuardarLibro extends HttpServlet {
             ex.printStackTrace();
         } catch (NumberFormatException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Año o número de páginas inválido.");
+        } catch (IOException ex) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error al leer el JSON.");
         }
     }
 
 }
+
+
+

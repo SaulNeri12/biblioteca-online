@@ -87,7 +87,7 @@
                   <select id="agregar-genero2" required>
                         <!-- Aquí se llenarán los géneros con JavaScript -->
                   </select>
-                  <button type="submit" onclick="agregarLibro()">Agregar</button>
+                  <button class="btn-agregar" onclick="agregarLibro(event)">Agregar</button>
                 </form>
                 <form method="dialog">
                     <button>Cancelar</button>
@@ -134,8 +134,7 @@
                   <select id="editar-genero2" required>
                         <!-- Aquí se llenarán los géneros con JavaScript -->
                   </select>
-
-                  <button type="submit" onclick="editarLibro()">Editar</button>
+                  <button class="btn-editar" onclick="editarLibro()">Editar</button>
                 </form>
                 <form method="dialog">
                     <button>Cancelar</button>

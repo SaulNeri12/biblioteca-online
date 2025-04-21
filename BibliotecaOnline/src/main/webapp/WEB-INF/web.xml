@@ -20,4 +20,15 @@
         <servlet-name>SvUsuario</servlet-name>
         <url-pattern>/usuario</url-pattern>
     </servlet-mapping>-->
+    
+    <servlet>
+        <servlet-name>SvLibro</servlet-name>
+        <servlet-class>com.equipoweb.bibliotecaonline.servlets.SvGuardarLibro</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SvLibro</servlet-name>
+        <url-pattern>/AgregarLibro</url-pattern>
+    </servlet-mapping>
+
 </web-app>
