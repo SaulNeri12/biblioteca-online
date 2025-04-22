@@ -1,25 +1,303 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
-*/
 /* 
-    Created on : 18 abr 2025, 12:26:22 p.m.
+    Created on : 18 abr 2025, 12:26:22 p.m.
     Author     : neri
+    Description: Estilos para la página principal con tema neón
 */
 
 :root {
-    --primary-color: #f0f0f0;  /* Color primario */
-    --secondary-color: #2ecc71; /* Color secundario */
-    --font-size: 16px;          /* Tamaño de fuente */
-    --font-family: 'Arial', sans-serif; /* Familia de fuentes */
-    --button-padding: 10px 20px; /* Padding de los botones */
-    --font-color: #303030;
+    --primary-color: #050a18;    /* Color de fondo oscuro */
+    --secondary-color: #0ef;     /* Color neón principal */
+    --accent-color: #ff00e1;     /* Color de acento neón secundario */
+    --text-color: #f8f8f8;       /* Color de texto claro */
+    --dark-card-bg: #0d1630;     /* Color de fondo para tarjetas */
+    --card-shadow: rgba(14, 255, 255, 0.15);
+    --font-family: 'Poppins', sans-serif;
 }
 
-html {
-    color: var(--font-color);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
 }
 
-.parrafo {
-    color: yellow;
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(14, 255, 255, 0.2);
+    padding-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(14, 255, 255, 0.5);
+}
+
+.neon-text {
+    color: var(--secondary-color);
+    margin-left: 5px;
+    text-shadow: 0 0 10px var(--secondary-color),
+                 0 0 20px var(--secondary-color),
+                 0 0 30px var(--secondary-color);
+}
+
+.main-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 8px var(--secondary-color);
+}
+
+.nav-link.neon-button {
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link.neon-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--secondary-color),
+                0 0 20px var(--secondary-color);
+}
+
+/* Main Content Styles */
+.main-content {
+    margin-bottom: 40px;
+}
+
+/* User Information Styles */
+.user-info-section {
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--dark-card-bg);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
+                0 0 15px var(--card-shadow);
+    border: 1px solid rgba(14, 255, 255, 0.1);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    border-bottom: 1px solid rgba(14, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.user-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    color: rgba(248, 248, 248, 0.7);
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Welcome Section */
+.welcome-section {
+    margin-bottom: 40px;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, rgba(13, 22, 48, 0.9) 0%, rgba(5, 10, 24, 0.9) 100%);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3),
+                0 0 20px var(--card-shadow);
+    border: 1px solid rgba(14, 255, 255, 0.1);
+}
+
+.welcome-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px rgba(14, 255, 255, 0.5);
+}
+
+.welcome-message {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Books Section */
+.books-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--secondary-color);
+    text-shadow: 0 0 8px rgba(14, 255, 255, 0.3);
+}
+
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* Libro Card Styles */
+.carta-libro {
+    background-color: var(--dark-card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                0 0 10px var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(14, 255, 255, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carta-libro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 15px var(--secondary-color);
+}
+
+.portada-contenedor {
+    height: 300px;
+    overflow: hidden;
+}
+
+.portada-libro {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.carta-libro:hover .portada-libro {
+    transform: scale(1.05);
+}
+
+.informacion-libro {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contenedor-titulo-libro {
+    margin-bottom: 15px;
+}
+
+.titulo-libro {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.autor-libro {
+    font-size: 0.9rem;
+    color: rgba(248, 248, 248, 0.7);
+}
+
+.pie-carta-libro {
+    margin-top: auto;
+}
+
+.libro-generos {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    color: rgba(248, 248, 248, 0.7);
+    font-size: 0.875rem;
+    border-top: 1px solid rgba(14, 255, 255, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .user-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .books-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    .main-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .welcome-card {
+        padding: 25px;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
 }

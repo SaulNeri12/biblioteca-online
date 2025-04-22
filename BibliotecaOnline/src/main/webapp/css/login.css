@@ -1,0 +1,227 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 21 abr 2025, 22:55:57
+    Author     : sebastian
+ Description: Estilos para el modal de login con efecto neón
+*/
+
+:root {
+    --primary-color: #050a18;    /* Color de fondo oscuro */
+    --secondary-color: #0ef;     /* Color neón principal */
+    --text-color: #f8f8f8;       /* Color de texto claro */
+    --input-bg: #1a1a2e;         /* Color de fondo para inputs */
+    --font-family: 'Poppins', sans-serif;
+    --error-color: #ff3860;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--primary-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box {
+    position: relative;
+    width: 400px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: var(--text-color);
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid var(--text-color);
+    outline: none;
+    background: transparent;
+    transition: 0.5s;
+}
+
+.input-group .floating-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--text-color);
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input-group input:focus ~ .floating-label,
+.input-group input:valid ~ .floating-label {
+    top: -20px;
+    left: 0;
+    color: var(--secondary-color);
+    font-size: 12px;
+}
+
+.input-group input:focus,
+.input-group input:valid {
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.neon-button {
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    color: var(--secondary-color);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 0.5s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.neon-button:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 5px var(--secondary-color),
+                0 0 25px var(--secondary-color),
+                0 0 50px var(--secondary-color),
+                0 0 100px var(--secondary-color);
+}
+
+.neon-button span {
+    position: absolute;
+    display: block;
+}
+
+.neon-button span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--secondary-color));
+    animation: animateBtnTop 1s linear infinite;
+}
+
+.neon-button span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, var(--secondary-color));
+    animation: animateBtnRight 1s linear infinite;
+    animation-delay: 0.25s;
+}
+
+.neon-button span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, var(--secondary-color));
+    animation: animateBtnBottom 1s linear infinite;
+    animation-delay: 0.5s;
+}
+
+.neon-button span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, var(--secondary-color));
+    animation: animateBtnLeft 1s linear infinite;
+    animation-delay: 0.75s;
+}
+
+@keyframes animateBtnTop {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+@keyframes animateBtnRight {
+    0% {
+        top: -100%;
+    }
+    50%, 100% {
+        top: 100%;
+    }
+}
+
+@keyframes animateBtnBottom {
+    0% {
+        right: -100%;
+    }
+    50%, 100% {
+        right: 100%;
+    }
+}
+
+@keyframes animateBtnLeft {
+    0% {
+        bottom: -100%;
+    }
+    50%, 100% {
+        bottom: 100%;
+    }
+}
+
+.register-link {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.register-link p {
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.register-link a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

@@ -9,7 +9,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Crear Cuenta</title>
+        <title>Crear Cuenta</title><!-- comment -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
     </head>
     <body>
         <%
