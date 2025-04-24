@@ -9,11 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Crear Cuenta</title>
+        <title>Crear Cuenta</title><!-- comment -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
     </head>
     <body>
         <%
-            // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
+            //si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
             if (session.getAttribute("usuario") != null) {
                 response.sendRedirect("index.jsp");
                 return;

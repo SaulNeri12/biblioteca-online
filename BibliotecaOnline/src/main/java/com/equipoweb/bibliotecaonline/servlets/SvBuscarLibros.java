@@ -4,10 +4,10 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
-import com.equipoweb.bibliotecanegocio.dao.FabricaGeneroDAO;
+import com.equipoweb.bibliotecanegocio.dao.FabricaLibroDAO;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
-import com.equipoweb.bibliotecanegocio.dao.interfaces.IGeneroDAO;
-import com.equipoweb.bibliotecanegocio.entidades.Genero;
+import com.equipoweb.bibliotecanegocio.dao.interfaces.ILibroDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Libro;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -18,13 +18,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Servlet encargado de proveer los generos de libros disponibles en la aplicacion.
- * @author neri
+ *
+ * @author skevi
  */
-@WebServlet(name = "SvGeneros", urlPatterns = {"/generos"})
-public class SvGeneros extends HttpServlet {
-
-    IGeneroDAO generosDAO = FabricaGeneroDAO.getInstance().crearDAO();
+@WebServlet(name = "SvBuscarLibros", urlPatterns = {"/BuscarLibros"})
+public class SvBuscarLibros extends HttpServlet {
+    
+    ILibroDAO libroDAO = FabricaLibroDAO.getInstance().crearDAO();
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -39,13 +39,16 @@ public class SvGeneros extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
+        
+        String libro = request.getParameter("libro");
+        String genero = request.getParameter("genero");
+        
         try {
-            List<Genero> generos = generosDAO.obtenerGenerosTodos();
+            List<Libro> libros = libroDAO.buscarLibro(libro, genero, "");
 
             // Convertimos la lista a JSON usando Jackson
             ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(generos);
+            String json = mapper.writeValueAsString(libros);
 
             response.getWriter().write(json);
 

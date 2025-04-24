@@ -4,13 +4,21 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
+import com.equipoweb.bibliotecanegocio.dao.FabricaAutorDAO;
+import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
+import com.equipoweb.bibliotecanegocio.dao.interfaces.IAutorDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Autor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Servlet que manejara la visualizacion, busqueda, registro y actualizacion
@@ -20,33 +28,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "SvAutor", urlPatterns = {"/autor"})
 public class SvAutor extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SvAutor</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SvAutor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    IAutorDAO autorDAO = FabricaAutorDAO.getInstance().crearDAO();
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -56,10 +39,38 @@ public class SvAutor extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            List<Autor> autores = autorDAO.obtenerAutoresTodos();
+
+            // Crear una lista de Mapas con solo el id y nombre de los autores
+            List<Map<String, Object>> autoresList = new ArrayList<>();
+            for (Autor autor : autores) {
+                Map<String, Object> autorMap = new HashMap<>();
+                autorMap.put("id", autor.getId());
+                autorMap.put("nombre", autor.getNombre());
+                autoresList.add(autorMap);
+            }
+
+            // Convertimos la lista a JSON usando Jackson
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(autoresList);
+
+            // Enviar la respuesta JSON al cliente
+            response.getWriter().write(json);
+
+        } catch (Exception e) {
+            // Manejar el error y enviar respuesta adecuada
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
+
+
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -72,7 +83,7 @@ public class SvAutor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**

@@ -7,11 +7,13 @@
     <class>com.equipoweb.bibliotecanegocio.entidades.Genero</class>
     <class>com.equipoweb.bibliotecanegocio.entidades.Usuario</class>
     <class>com.equipoweb.bibliotecanegocio.entidades.FavoritoLibro</class>
+    <class>com.equipoweb.bibliotecanegocio.entidades.Administrador</class>
+    
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/biblioteca_online?serverTimezone=UTC"/>
       <!--[ Cambien el usuario y la contrasena segun su MySQL Server ]-->
       <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.password" value="19040042"/>
+      <property name="javax.persistence.jdbc.password" value="123456"/>
       <!--[///////]-->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>

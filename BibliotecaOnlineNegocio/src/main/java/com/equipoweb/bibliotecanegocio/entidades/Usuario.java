@@ -5,6 +5,7 @@
 
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -28,21 +29,27 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
     
     @Column(name="nombre", nullable=false)
+    @JsonProperty("nombre")
     private String nombre;
     
     @Column(name="email", nullable=false, unique=true)
+    @JsonProperty("email")
     private String email;
     
     @Column(name="telefono", nullable=false, unique=true)
+    @JsonProperty("telefono")
     private String telefono;
     
     @Column(name="contrasena", nullable=false)
+    @JsonProperty("contrasena")
     private String contrasena;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonProperty("fecha_nacimiento")
     @Column(name="fecha_nacimiento", updatable = false)
     private Date fechaNacimiento;
 

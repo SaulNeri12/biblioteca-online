@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (contrasena !== contrasenaConfirm) {
             // mostrar alerta en el form (no alert, un rectangulo rojo indicando el error)
+            alert("las contraseñas deben de coincidir");
             return;
         }
         

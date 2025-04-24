@@ -5,6 +5,7 @@
 
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,12 @@ public class FavoritoLibro implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonProperty("usuario")
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "libro_id", nullable = false)
+    @JsonProperty("libro")
     private Libro libro;
     
     public FavoritoLibro() {
