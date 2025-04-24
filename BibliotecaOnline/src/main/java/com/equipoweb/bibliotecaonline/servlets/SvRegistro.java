@@ -32,6 +32,10 @@ public class SvRegistro extends HttpServlet {
     private IUsuariosDAO usuariosDAO = FabricaUsuariosDAO.getInstance().crearDAO();
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/registro.jsp").forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
