@@ -1,7 +1,7 @@
-/* 
-    Created on : 18 abr 2025, 12:26:22 p.m.
+/* Created on : 18 abr 2025, 12:26:22 p.m.
     Author     : neri
     Description: Estilos para la página principal con tema neón
+                
 */
 
 :root {
@@ -12,6 +12,7 @@
     --dark-card-bg: #0d1630;     /* Color de fondo para tarjetas */
     --card-shadow: rgba(14, 255, 255, 0.15);
     --font-family: 'Poppins', sans-serif;
+    --warning-yellow: #FFD700;   /* Amarillo para estrellas/botones */
 }
 
 * {
@@ -64,7 +65,8 @@ body {
 
 .main-nav {
     display: flex;
-    gap: 20px;
+    gap: 20px; /* Espacio entre elementos de navegación */
+    align-items: center; /* Centrar verticalmente los elementos */
 }
 
 .nav-link {
@@ -73,6 +75,12 @@ body {
     padding: 8px 16px;
     border-radius: 4px;
     transition: all 0.3s ease;
+    /* Añadido para botones */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
 }
 
 .nav-link:hover {
@@ -92,6 +100,7 @@ body {
     color: var(--primary-color);
     box-shadow: 0 0 10px var(--secondary-color),
                 0 0 20px var(--secondary-color);
+    text-shadow: none; /* Evitar doble sombra */
 }
 
 /* Main Content Styles */
@@ -193,7 +202,7 @@ body {
 .carta-libro {
     background-color: var(--dark-card-bg);
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible; /* Cambiado para que el icono absoluto no se corte si tiene sombra */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
                 0 0 10px var(--card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -201,6 +210,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative; /* Necesario para posicionar icono favorito absoluto */
 }
 
 .carta-libro:hover {
@@ -212,6 +222,8 @@ body {
 .portada-contenedor {
     height: 300px;
     overflow: hidden;
+    position: relative; /* Para posicionar icono relativo a la portada */
+    border-radius: 8px 8px 0 0; /* Redondear esquinas superiores si se quiere */
 }
 
 .portada-libro {
@@ -219,6 +231,7 @@ body {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    display: block; /* Evitar espacio extra debajo */
 }
 
 .carta-libro:hover .portada-libro {
@@ -241,6 +254,7 @@ body {
     font-size: 1.1rem;
     font-weight: 500;
     margin-bottom: 5px;
+    color: var(--text-color); /* Asegurar color de texto */
 }
 
 .autor-libro {
@@ -249,13 +263,28 @@ body {
 }
 
 .pie-carta-libro {
-    margin-top: auto;
+    margin-top: auto; /* Empuja esto hacia abajo */
 }
 
 .libro-generos {
     font-size: 0.8rem;
     color: var(--secondary-color);
 }
+
+/* Indicadores y Mensajes */
+.loading-indicator,
+.no-books-message,
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+    color: rgba(248, 248, 248, 0.7);
+    grid-column: 1 / -1; /* Ocupar todo el ancho si está en un grid */
+}
+.error-message {
+    color: var(--error-color, #ff3860); /* Usar variable si existe o rojo */
+}
+
 
 /* Footer Styles */
 .footer {
@@ -266,7 +295,172 @@ body {
     border-top: 1px solid rgba(14, 255, 255, 0.1);
 }
 
-/* Responsive Adjustments */
+/* ================================== */
+/* === ESTILOS PARA FAVORITOS (NUEVO/MODIFICADO) === */
+/* ================================== */
+
+/* Icono de Favorito en la Tarjeta */
+.icono-favorito {
+    position: absolute; /* Posicionar sobre la imagen */
+    top: 10px;          /* Espacio desde arriba */
+    right: 10px;         /* Espacio desde la derecha */
+    z-index: 10;         /* Asegurar que esté visible */
+    cursor: pointer;
+    font-size: 1.5rem;   /* Ajustar tamaño del icono si es necesario */
+    padding: 6px;        /* Área de clic un poco mayor */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para contraste */
+    border-radius: 50%;  /* Hacerlo circular */
+    line-height: 1;      /* Ajustar línea para centrar icono si es necesario */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Añadir transición transform */
+}
+
+.icono-favorito i {
+    color: rgba(248, 248, 248, 0.7); /* Color inicial (inactivo) */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    display: block; /* Importante para centrado y transiciones */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Sombra ligera para destacar */
+}
+
+.icono-favorito.favorito-activo i {
+    color: var(--warning-yellow, #FFD700); /* Usar variable amarillo */
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7),
+                 0 0 10px rgba(255, 215, 0, 0.5),
+                 1px 1px 2px rgba(0,0,0,0.3); /* Combinar brillo y sombra */
+}
+
+.icono-favorito:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    transform: scale(1.1); /* Agrandar un poco al pasar el ratón */
+}
+.icono-favorito:hover i {
+    color: var(--text-color); /* Blanco al pasar el ratón (si no está activo) */
+}
+.icono-favorito.favorito-activo:hover i {
+    color: #ffec80; /* Amarillo más brillante al pasar el ratón (si está activo) */
+}
+
+/* Modal de Favoritos */
+.dialog-favoritos {
+    background: rgba(13, 22, 48, 0.9); /* Fondo oscuro con opacidad */
+    color: var(--text-color);
+    border: 1px solid var(--secondary-color); /* Borde neón cian */
+    border-radius: 12px; /* Bordes más redondeados */
+    padding: 0; /* Quitar padding para controlar con flex */
+    width: clamp(300px, 85vw, 1000px); /* Ancho responsive */
+    max-height: 85vh; /* Altura máxima */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px var(--secondary-color); /* Sombra más pronunciada */
+    backdrop-filter: blur(8px); /* Desenfoque del fondo */
+    margin: auto; /* Centrado */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Controlar overflow */
+}
+
+.dialog-favoritos::backdrop {
+    background-color: rgba(5, 10, 24, 0.7); /* Fondo más oscuro y con más opacidad */
+    backdrop-filter: blur(5px); /* Más desenfoque */
+}
+
+/* Título del modal (NUEVO) */
+.dialog-favoritos .modal-title {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    text-align: center;
+    text-shadow: 0 0 8px rgba(14, 255, 255, 0.3);
+    padding: 25px 35px 15px 35px; /* Espaciado interno */
+    border-bottom: 1px solid rgba(14, 255, 255, 0.2);
+    flex-shrink: 0; /* No encoger el título */
+}
+
+/* Contenedor de libros dentro del modal */
+.dialog-favoritos .modal-books-container {
+    flex-grow: 1; /* Ocupa el espacio vertical disponible */
+    overflow-y: auto; /* Scroll SOLO en esta área */
+    padding: 25px 35px; /* Espaciado interno */
+    /* Estilos de grid (adaptado del .books-container) */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Tarjetas quizás más pequeñas */
+    gap: 20px;
+}
+
+/* Mensajes dentro del contenedor modal (Cargando, No hay libros) */
+.dialog-favoritos .modal-books-container .loading-indicator,
+.dialog-favoritos .modal-books-container .no-books-message {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+    color: rgba(248, 248, 248, 0.7);
+    grid-column: 1 / -1; /* Ocupar todo el ancho del grid */
+}
+
+/* Contenedor de acciones/botones del modal */
+.dialog-favoritos .modal-actions {
+    text-align: right;
+    border-top: 1px solid rgba(14, 255, 255, 0.2);
+    padding: 20px 35px;
+    background-color: rgba(13, 22, 48, 0.5); /* Fondo ligero para separar */
+    flex-shrink: 0; /* No encoger */
+}
+
+/* Botón de cierre del modal */
+#btn-cerrar-modal-favoritos {
+    padding: 12px 30px;
+    background-color: var(--accent-color); /* Usar color de acento (rosa neón) */
+    color: var(--text-color); /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 8px var(--accent-color), 0 0 15px var(--accent-color); /* Sombra rosa */
+}
+
+#btn-cerrar-modal-favoritos:hover {
+    background-color: #ff33ec; /* Rosa más brillante */
+    box-shadow: 0 0 10px var(--accent-color), 0 0 25px var(--accent-color), 0 0 40px var(--accent-color);
+    transform: scale(1.03); /* Ligero aumento */
+}
+
+
+/* Botón "Mis Favoritos" en Nav */
+#btn-ver-favoritos {
+    background-color: var(--warning-yellow, #FFD700);  /* Amarillo */
+    color: var(--primary-color); /* Texto oscuro para contraste con amarillo */
+    padding: 8px 16px;       /* Mismo padding que otros nav-links */
+    border-radius: 4px;
+    /* border: none; */ /* Hereda de nav-link */
+    /* cursor: pointer; */ /* Hereda de nav-link */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    /* font-family: var(--font-family); */ /* Hereda de nav-link */
+    /* font-size: inherit; */ /* Hereda de nav-link */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: none; /* Quitar sombra de texto si la hereda */
+}
+
+#btn-ver-favoritos i {
+    color: var(--primary-color); /* Icono oscuro también */
+    transition: color 0.3s ease; /* Transición suave */
+}
+
+#btn-ver-favoritos:hover {
+    background-color: #ffec80; /* Amarillo más claro al pasar */
+    color: #332e00; /* Oscuro más intenso para hover */
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.7), 0 0 15px rgba(255, 215, 0, 0.5); /* Sombra amarilla */
+    text-shadow: none; /* Asegurar que no herede sombra de texto del nav-link:hover */
+}
+
+#btn-ver-favoritos:hover i {
+    color: #332e00; /* Mismo color oscuro intenso que el texto en hover */
+}
+
+
+/* Responsive Adjustments (EXISTENTES - Sin cambios aquí) */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -278,9 +472,26 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .books-container {
+    .books-container,
+    .dialog-favoritos .modal-books-container { /* Aplicar también al modal */
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px; /* Reducir gap */
     }
+    .dialog-favoritos {
+         width: clamp(280px, 90vw, 600px); /* Ajustar ancho modal en pantallas pequeñas */
+         padding: 20px 25px; /* Reducir padding modal */
+    }
+    .dialog-favoritos .modal-title {
+         padding: 20px 25px 10px 25px;
+         font-size: 1.5rem;
+    }
+     .dialog-favoritos .modal-actions {
+         padding: 15px 25px;
+     }
+     .dialog-favoritos .modal-books-container {
+         padding: 15px 5px; /* Reducir padding lateral en contenido modal */
+     }
+
 }
 
 @media (max-width: 480px) {
@@ -300,4 +511,30 @@ body {
     .welcome-title {
         font-size: 1.5rem;
     }
+
+    .books-container,
+    .dialog-favoritos .modal-books-container { /* Aplicar también al modal */
+         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Aún más pequeñas */
+         gap: 15px;
+     }
+     .icono-favorito {
+         font-size: 1.3rem; /* Icono un poco más pequeño */
+         padding: 5px;
+         top: 5px;
+         right: 5px;
+     }
+     .dialog-favoritos {
+         padding: 15px 20px; /* Reducir padding modal */
+     }
+     .dialog-favoritos .modal-title {
+          padding: 15px 20px 10px 20px;
+          font-size: 1.4rem;
+     }
+      .dialog-favoritos .modal-actions {
+          padding: 15px 20px;
+      }
+       #btn-cerrar-modal-favoritos {
+           padding: 10px 20px;
+           font-size: 0.9rem;
+       }
 }

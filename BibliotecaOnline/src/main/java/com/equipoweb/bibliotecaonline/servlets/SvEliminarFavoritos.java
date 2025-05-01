@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.equipoweb.bibliotecaonline.servlets;
-
+/**
+ *
+ * @author caarl
+ */
 import com.equipoweb.bibliotecanegocio.dao.FabricaFavoritoLibroDAO;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IFavoritoLibroDAO;

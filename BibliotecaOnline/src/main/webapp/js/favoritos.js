@@ -4,7 +4,10 @@
  * Depende de: SweetAlert2, FontAwesome, y funciones de cargar-libros.js (buscarLibros, agregarEfectosVisuales).
  * 
  */
-
+/**
+ *
+ * @author caarl
+ */
 // URL Base de la aplicación
 const BASE_URL = "http://localhost:8080/BibliotecaOnline";
 
