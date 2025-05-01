@@ -2,7 +2,7 @@
  * favoritos.js
  * Maneja la funcionalidad de favoritos y ORQUESTA la carga inicial de la página.
  * Depende de: SweetAlert2, FontAwesome, y funciones de cargar-libros.js (buscarLibros, agregarEfectosVisuales).
- * Updated by AI: Integrated initial book loading logic into DOMContentLoaded.
+ * 
  */
 
 // URL Base de la aplicación

@@ -4,7 +4,7 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
-// Asegúrate que las importaciones a tus clases DAO sean correctas
+
 import com.equipoweb.bibliotecanegocio.dao.FabricaFavoritoLibroDAO;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IFavoritoLibroDAO;
@@ -16,15 +16,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Enumeration; // Para listar atributos de sesión
 
 /**
  * Servlet para agregar un libro a la lista de favoritos de un usuario.
- * Utiliza el ISBN del libro.
+ * Utiliza el ISBN del libro. Incluye logging de sesión mejorado.
  */
 @WebServlet(name = "SvAgregarFavoritos", urlPatterns = {"/AgregarFavorito"})
 public class SvAgregarFavoritos extends HttpServlet {
 
-    // Usar la fábrica y la interfaz DAO correctas
     private final IFavoritoLibroDAO favoritoDAO = FabricaFavoritoLibroDAO.getInstance().crearDAO();
 
     @Override
@@ -34,64 +34,107 @@ public class SvAgregarFavoritos extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        // --- Identificación del Usuario ---
-        // TODO: Implementa la lógica real para obtener el ID del usuario autenticado.
-        HttpSession session = request.getSession(false);
+        // === Logging de Diagnóstico de Sesión ===
+        System.out.println("\n--- [SvAgregarFavoritos] - Iniciando doPost ---");
+        HttpSession session = request.getSession(false); // No crear sesión nueva si no existe
         Long usuarioId = null;
-        if (session != null && session.getAttribute("usuarioId") != null) {
-            // Asume que guardas el ID del usuario como Long en la sesión con la key "usuarioId"
-            try {
-                usuarioId = (Long) session.getAttribute("usuarioId");
-            } catch (ClassCastException e) {
-                 System.err.println("Error al obtener usuarioId de la sesión: El atributo no es de tipo Long.");
-                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error interno al procesar la sesión.");
-                 return;
+
+        if (session == null) {
+            System.out.println("[SvAgregarFavoritos] Diagnóstico: HttpSession es NULL. No hay sesión activa.");
+        } else {
+            System.out.println("[SvAgregarFavoritos] Diagnóstico: Session ID = " + session.getId());
+            // Listar todos los atributos para ver qué hay realmente
+            System.out.print("[SvAgregarFavoritos] Diagnóstico: Atributos en sesión -> { ");
+            Enumeration<String> attributeNames = session.getAttributeNames();
+            boolean first = true;
+            while (attributeNames.hasMoreElements()) {
+                String attrName = attributeNames.nextElement();
+                Object attrValue = session.getAttribute(attrName);
+                 if (!first) System.out.print(", ");
+                 System.out.print(attrName + ": (" + (attrValue == null ? "NULL" : attrValue.getClass().getName()) + ") " + attrValue);
+                 first = false;
+            }
+             System.out.println(" }");
+
+            // Intentar obtener el usuarioId específicamente
+            Object usuarioIdObj = session.getAttribute("usuarioId");
+             System.out.println("[SvAgregarFavoritos] Diagnóstico: session.getAttribute(\"usuarioId\") = " + usuarioIdObj);
+
+            if (usuarioIdObj != null) {
+                if (usuarioIdObj instanceof Long) {
+                    try {
+                        usuarioId = (Long) usuarioIdObj;
+                         System.out.println("[SvAgregarFavoritos] Diagnóstico: Cast a Long exitoso. usuarioId = " + usuarioId);
+                    } catch (ClassCastException e) {
+                         // Este bloque no debería alcanzarse si instanceof es true, pero por seguridad
+                         System.err.println("[SvAgregarFavoritos] ERROR INESPERADO: Falló el cast a Long aunque instanceof era true.");
+                         e.printStackTrace(); // Loguear el error completo
+                         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\": \"Error interno inesperado de sesión (Tipo)\"}");
+                         return;
+                    }
+                } else {
+                     System.err.println("[SvAgregarFavoritos] ERROR: El atributo 'usuarioId' existe pero NO es de tipo Long. Tipo encontrado: " + usuarioIdObj.getClass().getName());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\": \"Error interno de datos de sesión (Tipo incorrecto)\"}");
+                     return;
+                }
+            } else {
+                 System.out.println("[SvAgregarFavoritos] Diagnóstico: El atributo 'usuarioId' es NULL en la sesión.");
             }
         }
+        // === Fin Logging de Diagnóstico ===
 
+
+        // --- Verificación de usuarioId (lógica original) ---
         if (usuarioId == null) {
-            // Si no hay usuario logueado, enviar error de no autorizado
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"error\": \"Usuario no autenticado.\"}");
-            return;
+             System.out.println("[SvAgregarFavoritos] usuarioId es NULL después de la verificación. Enviando 401.");
+             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "{\"error\": \"Usuario no autenticado.\"}");
+             return;
         }
-        // ---------------------------------
+        // ---------------------------------------------------
+         System.out.println("[SvAgregarFavoritos] Autenticación OK. usuarioId = " + usuarioId);
 
+        // --- Procesamiento de la solicitud ---
         String isbn = request.getParameter("isbn");
+         System.out.println("[SvAgregarFavoritos] Parámetro isbn recibido: " + isbn);
 
         if (isbn == null || isbn.isBlank()) {
+             System.out.println("[SvAgregarFavoritos] ISBN es inválido. Enviando 400.");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "{\"error\": \"El ISBN del libro es requerido.\"}");
             return;
         }
 
         try {
-            // Llamar al método DAO que ahora acepta ISBN
+             System.out.println("[SvAgregarFavoritos] Llamando a favoritoDAO.asignarFavorito...");
             favoritoDAO.asignarFavorito(usuarioId, isbn);
+             System.out.println("[SvAgregarFavoritos] Llamada a DAO exitosa.");
 
-            response.setStatus(HttpServletResponse.SC_OK); // O SC_CREATED (201) si prefieres
+            response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("{\"mensaje\": \"Libro agregado a favoritos con éxito.\"}");
+            System.out.println("[SvAgregarFavoritos] Respuesta 200 OK enviada.");
 
         } catch (DAOException ex) {
-            System.err.println("Error DAO al agregar favorito (Usuario: " + usuarioId + ", ISBN: " + isbn + "): " + ex.getMessage());
-             ex.printStackTrace(); // Loguear para depuración
-             // Devolver el mensaje de la excepción DAO puede ser útil para el frontend
-             // o devolver un mensaje genérico.
-             // Si la DAOException fue porque ya existe, podrías enviar un código diferente (ej: 409 Conflict)
+             System.err.println("[SvAgregarFavoritos] Error DAO al agregar favorito (Usuario: " + usuarioId + ", ISBN: " + isbn + "): " + ex.getMessage());
+             ex.printStackTrace(); // Loguear stack trace completo
+
+             // Mejorar manejo de errores específicos de DAO
              if (ex.getMessage() != null && ex.getMessage().contains("ya está marcado como favorito")) {
-                 response.setStatus(HttpServletResponse.SC_CONFLICT); // 409 Conflict es apropiado si ya existe
+                 response.setStatus(HttpServletResponse.SC_CONFLICT); // 409
                  response.getWriter().write("{\"error\": \"" + ex.getMessage() + "\"}");
              } else if (ex.getMessage() != null && (ex.getMessage().contains("no encontrado") || ex.getMessage().contains("not found"))) {
-                 response.setStatus(HttpServletResponse.SC_NOT_FOUND); // 404 Not Found si el libro o usuario no existe
+                 response.setStatus(HttpServletResponse.SC_NOT_FOUND); // 404
                  response.getWriter().write("{\"error\": \"" + ex.getMessage() + "\"}");
+             } else {
+                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+                 response.getWriter().write("{\"error\": \"Error del servidor al agregar favorito: " + ex.getMessage() + "\"}");
              }
-              else {
-                  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                  response.getWriter().write("{\"error\": \"Error al agregar el libro a favoritos: " + ex.getMessage() + "\"}");
-             }
+             System.out.println("[SvAgregarFavoritos] Respuesta de error DAO enviada (Status: " + response.getStatus() + ")");
+
         } catch (Exception e) {
-            // Captura genérica para otros posibles errores inesperados
-            System.err.println("Error inesperado al agregar favorito (Usuario: " + usuarioId + ", ISBN: " + isbn + "): " + e.getMessage());
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\": \"Ocurrió un error inesperado.\"}");
+             System.err.println("[SvAgregarFavoritos] Error inesperado (Usuario: " + usuarioId + ", ISBN: " + isbn + "): " + e.getMessage());
+             e.printStackTrace();
+             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\": \"Ocurrió un error inesperado en el servidor.\"}");
+             System.out.println("[SvAgregarFavoritos] Respuesta 500 (Error inesperado) enviada.");
         }
+         System.out.println("--- [SvAgregarFavoritos] - Finalizando doPost ---");
     }
 }
