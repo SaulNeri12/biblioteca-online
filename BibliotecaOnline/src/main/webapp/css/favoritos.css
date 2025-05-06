@@ -1,0 +1,178 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 abr 2025, 11:10:51 p.m.
+    Author     : caarl
+*/
+
+/* ================================== */
+/* === ESTILOS PARA FAVORITOS === */
+/* ================================== */
+
+/* --- Icono de Favorito en la Tarjeta --- */
+
+/* Contenedor de la tarjeta necesita position relative */
+.carta-libro {
+    position: relative; /* Necesario para posicionar el icono absoluto */
+    /* ... tus otros estilos para .carta-libro ... */
+    background-color: var(--dark-card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                0 0 10px var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(14, 255, 255, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* El span que envuelve al icono de estrella */
+.icono-favorito {
+    position: absolute;
+    top: 10px; /* Ajusta el espacio desde arriba */
+    right: 10px; /* Ajusta el espacio desde la derecha */
+    z-index: 10; /* Asegura que esté sobre la imagen */
+    cursor: pointer;
+    padding: 5px; /* Área de clic un poco más grande */
+    border-radius: 50%; /* Opcional: fondo circular al pasar el ratón */
+    transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+    font-size: 1.3rem; /* Tamaño del icono */
+}
+
+/* El icono <i> dentro del span */
+.icono-favorito i {
+    color: rgba(248, 248, 248, 0.7); /* Color inicial (inactivo) - grisáceo */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    display: block; /* Asegura que la transición funcione bien */
+}
+
+/* Estilo al pasar el ratón por encima */
+.icono-favorito:hover i {
+    color: var(--text-color); /* Blanco al pasar el ratón */
+}
+.icono-favorito:hover {
+     background-color: rgba(14, 255, 255, 0.1); /* Ligero fondo neón */
+}
+
+
+/* Estilo del icono CUANDO está ACTIVO (es favorito) */
+.icono-favorito.favorito-activo i {
+    color: #FFD700; /* Color amarillo estándar para estrellas */
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7), /* Sombra amarilla */
+                 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Estilo al pasar el ratón CUANDO está ACTIVO */
+.icono-favorito.favorito-activo:hover i {
+    color: #ffe866; /* Amarillo un poco más brillante */
+}
+.icono-favorito.favorito-activo:hover {
+    background-color: rgba(255, 215, 0, 0.1); /* Ligero fondo amarillo */
+}
+
+
+/* --- Modal de Favoritos --- */
+
+/* Estilo base para el diálogo */
+.dialog-favoritos { /* O usa #modal-favoritos si prefieres ID */
+    background: var(--dark-card-bg);
+    color: var(--text-color);
+    border: 1px solid rgba(14, 255, 255, 0.3); /* Borde neón */
+    border-radius: 10px;
+    padding: 30px;
+    width: 80%;
+    max-width: 900px; /* Ancho máximo */
+    min-width: 300px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 20px var(--secondary-color); /* Sombra neón */
+    /* Efecto de cristal (opcional) */
+    backdrop-filter: blur(5px);
+    background: rgba(13, 22, 48, 0.85); /* Fondo semi-transparente */
+}
+
+/* Estilo para el fondo oscuro detrás del modal */
+.dialog-favoritos::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+}
+
+/* Título del modal */
+.dialog-favoritos .modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--secondary-color);
+    text-align: center;
+    border-bottom: 1px solid rgba(14, 255, 255, 0.2);
+    padding-bottom: 15px;
+    text-shadow: 0 0 8px rgba(14, 255, 255, 0.3);
+}
+
+/* Contenedor de libros dentro del modal */
+.dialog-favoritos .modal-books-container {
+    max-height: 60vh; /* Altura máxima, permite scroll */
+    overflow-y: auto; /* Scroll vertical si es necesario */
+    padding: 15px 5px; /* Espaciado interno */
+    margin-bottom: 25px; /* Espacio antes de los botones */
+     /* Usar el mismo grid que el contenedor principal */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Tarjetas un poco más pequeñas? */
+    gap: 20px;
+}
+
+/* Mensajes dentro del contenedor modal (Cargando, No hay libros) */
+.dialog-favoritos .modal-books-container .loading-indicator,
+.dialog-favoritos .modal-books-container .no-books-message {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 1.1rem;
+    color: rgba(248, 248, 248, 0.7);
+    grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
+}
+
+
+/* Contenedor de acciones/botones del modal */
+.dialog-favoritos .modal-actions {
+    text-align: right; /* Alinea el botón de cierre a la derecha */
+    border-top: 1px solid rgba(14, 255, 255, 0.2);
+    padding-top: 20px;
+}
+
+/* Botón de cierre del modal (estilo simple) */
+#btn-cerrar-modal-favoritos {
+    padding: 10px 25px;
+    background-color: var(--dark-card-bg); /* Fondo oscuro */
+    color: var(--secondary-color); /* Texto neón */
+    border: 1px solid var(--secondary-color); /* Borde neón */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+#btn-cerrar-modal-favoritos:hover {
+    background-color: var(--secondary-color); /* Fondo neón */
+    color: var(--primary-color); /* Texto oscuro */
+    box-shadow: 0 0 8px var(--secondary-color), 0 0 15px var(--secondary-color);
+}
+
+/* Ajuste para el botón 'Mis Favoritos' en la NAV si es necesario */
+#btn-ver-favoritos {
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* Hereda estilos de .nav-link, pero puedes añadir específicos */
+    display: inline-flex; /* Para alinear icono y texto */
+    align-items: center;
+    gap: 8px; /* Espacio entre icono y texto */
+}
+#btn-ver-favoritos i {
+    /* Estilo específico para el icono en el botón si es necesario */
+     color: var(--secondary-color); /* Color neón para el icono del botón */
+}
+
+#btn-ver-favoritos:hover i {
+     color: inherit; /* O mantener el color neón si se prefiere */
+}

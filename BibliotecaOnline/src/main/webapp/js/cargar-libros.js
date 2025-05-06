@@ -1,138 +1,115 @@
-/* 
- * Updated on: 18 abr 2025
+/*
  * Author: neri
- * Description: Script para cargar y mostrar libros con efectos visuales neón
+ * Description: Script que DEFINE funciones para buscar libros y aplicar efectos visuales.
+ * La carga inicial es ahora manejada por favoritos.js
+ * Updated by AI: Removed DOMContentLoaded, original crearCartaLibro, original cargarLibros.
  */
 
+/**
+ * Busca libros en el backend.
+ * @param {string} [titulo] - Título a buscar (opcional).
+ * @param {string} [genero] - Género a buscar (opcional).
+ * @param {string} [autor] - Autor a buscar (opcional).
+ * @returns {Promise<Array<Object>>} - Promesa que resuelve a una lista de libros.
+ */
 async function buscarLibros(titulo, genero, autor) {
-    let url = "http://localhost:8080/BibliotecaOnline/BuscarLibros";
+    // Asegúrate que BASE_URL esté definida globalmente o pásala como argumento si es necesario.
+    // Si BASE_URL solo está en favoritos.js, necesitarás definirla aquí también o refactorizar.
+    // Por ahora, asumimos que favoritos.js la define y este script se carga antes,
+    // pero es mejor definirla en ambos o en un script de configuración común.
+    const BASE_URL_LIBROS = "http://localhost:8080/BibliotecaOnline"; // Definición temporal aquí si es necesario
+    let url = `${BASE_URL_LIBROS}/BuscarLibros`;
     const params = new URLSearchParams();
     if (titulo)
         params.append("libro", titulo);
     if (genero)
         params.append("genero", genero);
-    if (autor)
-        params.append("autor", autor);
-    url += "?" + params.toString();
+    // El endpoint /BuscarLibros original no parece aceptar 'autor', verificar si es necesario
+    // if (autor)
+    //     params.append("autor", autor);
+
+    // Solo añadir '?' si hay parámetros
+    const queryString = params.toString();
+    if (queryString) {
+        url += "?" + queryString;
+    }
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error("Ocurrió un problema para encontrar los libros");
+            // Intentar obtener mensaje de error del backend
+            const errorText = await response.text();
+             console.error(`Error ${response.status} al buscar libros: ${errorText}`);
+            throw new Error(`Ocurrió un problema (${response.status}) para encontrar los libros.`);
         }
         const data = await response.json();
+        console.log("Libros encontrados por buscarLibros:", data); // Log para depuración
         return data;
     } catch (error) {
-        console.error("Error:", error.message);
-        return [];
+        console.error("Error en buscarLibros:", error.message);
+         // Propagar el error para que el llamador (en favoritos.js) lo maneje
+         throw error;
+        // return []; // Devolver vacío podría ocultar el error
     }
 }
-;
 
-function crearCartaLibro(libro, numero = 0) {
-    let generos_str = "";
-    if (libro.generos && libro.generos.length > 0) { // Corregido: cambié < 1 a > 0
-        generos_str = libro.generos.join(", ");
-    }
-    let portada_libro = `https://covers.openlibrary.org/b/isbn/${libro.isbn}-M.jpg`;
 
-    return `
-        <div class="carta-libro" data-numero-carta="${numero}">
-            <div class="portada-contenedor">
-                <img class="portada-libro" src="${portada_libro}" alt="Portada de ${libro.nombre}">
-            </div>
-            <div class="informacion-libro">
-                <div class="contenedor-titulo-libro">
-                    <p class="titulo-libro">${libro.nombre}</p>
-                    <p class="autor-libro" data-id-autor="${libro.autor.id}">${libro.autor.nombre}</p>
-                </div>
-                <div class="pie-carta-libro">
-                    <p class="libro-generos">${generos_str}</p>
-                </div>
-            </div>
-        </div>`;
-}
-
-function cargarLibros(libros = []) {
-    // Asegurarse de que la lista de libros no sea null ni vacía
-    if (libros === null || libros.length === 0) {
-        const $contenedorLibros = document.querySelector("#contenedor-libros");
-        $contenedorLibros.innerHTML = '<p class="no-books-message">No hay libros disponibles en este momento.</p>';
+/**
+ * Función para añadir efectos visuales a las cartas de libro.
+ * @param {HTMLElement} contenedor - El elemento contenedor de las cartas.
+ */
+function agregarEfectosVisuales(contenedor) {
+    if (!contenedor) {
+        console.warn("Contenedor no proporcionado para agregarEfectosVisuales");
         return;
     }
-
-    const $contenedorLibros = document.querySelector("#contenedor-libros");
-    // Limpiar el contenedor antes de agregar los libros
-    $contenedorLibros.innerHTML = "";
-
-    // Agregar cada libro al contenedor
-    let contador = 0;
-    libros.forEach(libro => {
-        const $cartaLibro = crearCartaLibro(libro, contador);
-        $contenedorLibros.insertAdjacentHTML("beforeend", $cartaLibro);
-        contador++;
-    });
-
-    // Aplicar efectos visuales después de cargar los libros
-    setTimeout(agregarEfectosVisuales, 100);
-}
-
-// Función para añadir efectos visuales a las cartas
-function agregarEfectosVisuales() {
-    const cartasLibro = document.querySelectorAll('.carta-libro');
+    // Usar el contenedor para ser más específico
+    const cartasLibro = contenedor.querySelectorAll('.carta-libro');
 
     cartasLibro.forEach((carta, index) => {
         // Añadir efecto de entrada con retardo basado en el índice
         carta.style.opacity = '0';
         carta.style.transform = 'translateY(20px)';
-        carta.style.transition = `opacity 0.5s ease, transform 0.5s ease`;
+        // Asegurarse que la transición esté definida en CSS para mejor rendimiento
+        // carta.style.transition = `opacity 0.5s ease, transform 0.5s ease`; // Mejor en CSS
 
         setTimeout(() => {
             carta.style.opacity = '1';
             carta.style.transform = 'translateY(0)';
-        }, 100 * index);
+        }, 100 * index); // El retardo sigue siendo útil
 
-        // Añadir evento para mostrar efecto hover mejorado
-        carta.addEventListener('mouseenter', function () {
-            this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px var(--secondary-color)';
-            this.style.transform = 'translateY(-5px)';
+        // Eventos de hover (asegúrate que no interfieran con el clic en la estrella)
+        carta.addEventListener('mouseenter', function (e) {
+             // No aplicar si el hover es sobre el icono de favorito
+             if (!e.target.closest('.icono-favorito')) {
+                 this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px var(--secondary-color)';
+                 this.style.transform = 'translateY(-5px) scale(1.02)'; // Añadir un ligero scale
+             }
         });
 
         carta.addEventListener('mouseleave', function () {
-            this.style.boxShadow = '';
-            this.style.transform = '';
+            this.style.boxShadow = ''; // Vuelve al shadow definido en CSS
+            this.style.transform = ''; // Vuelve a la transformación base
         });
     });
+
+     // Añadir efectos visuales para los enlaces del nav (si esta es la única inicialización)
+     // Si favoritos.js también tiene un DOMContentLoaded, esto podría ejecutarse dos veces.
+     // Es mejor centralizar esto en el DOMContentLoaded de favoritos.js
+     /*
+     const navLinks = document.querySelectorAll('.nav-link');
+     navLinks.forEach(link => {
+         if (!link.classList.contains('neon-button')) {
+             link.addEventListener('mouseenter', function () {
+                 this.style.textShadow = `0 0 8px var(--secondary-color), 0 0 20px var(--secondary-color)`;
+             });
+             link.addEventListener('mouseleave', function () {
+                 this.style.textShadow = '';
+             });
+         }
+     });
+     */
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        // Mostrar indicador de carga
-        const $contenedorLibros = document.querySelector("#contenedor-libros");
-        $contenedorLibros.innerHTML = '<div class="loading-indicator">Cargando libros...</div>';
-
-        // Buscar libros desde la API
-        const libros = await buscarLibros();
-        console.log("Libros encontrados:", libros);
-
-        // Cargar los libros con efectos visuales
-        cargarLibros(libros);
-
-        // Añadir efectos visuales para los enlaces del nav
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            if (!link.classList.contains('neon-button')) {
-                link.addEventListener('mouseenter', function () {
-                    this.style.textShadow = `0 0 8px var(--secondary-color), 0 0 20px var(--secondary-color)`;
-                });
-
-                link.addEventListener('mouseleave', function () {
-                    this.style.textShadow = '';
-                });
-            }
-        });
-    } catch (error) {
-        console.error("Error al cargar los libros:", error);
-        const $contenedorLibros = document.querySelector("#contenedor-libros");
-        $contenedorLibros.innerHTML = '<p class="error-message">Ocurrió un error al cargar los libros. Por favor, intenta de nuevo más tarde.</p>';
-    }
-});
+// IMPORTANTE: Se ha eliminado el listener DOMContentLoaded de este archivo.
+// La inicialización ahora la maneja `favoritos.js`.

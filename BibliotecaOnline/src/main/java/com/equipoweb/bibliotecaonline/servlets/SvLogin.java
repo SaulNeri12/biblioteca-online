@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
  * Servlet encargado de mostrar la pantalla de inicio de sesion y procesar el
  * inicio de sesion.
  * @author neri
+ * modificado by caarl :D
  */
 @WebServlet(name = "SvLogin", urlPatterns = {"/login"})
 public class SvLogin extends HttpServlet {
@@ -56,29 +57,55 @@ public class SvLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String email = request.getParameter("email");
         String contrasena = request.getParameter("contrasena");
-        
+
         Usuario usuario = null;
-        
+
         try {
+            // Asumiendo que iniciarSesion devuelve el objeto Usuario completo si es exitoso
+            // y que maneja la verificación de contraseña (idealmente con hash)
             usuario = this.usuariosDAO.iniciarSesion(email, contrasena);
+
+            // Si iniciarSesion devuelve null en lugar de lanzar excepción para login inválido
+            if (usuario == null) {
+                 // Manejar login inválido (p.ej., redirigir con mensaje de error)
+                 System.out.println("[SvLogin] Login fallido: Usuario no encontrado o contraseña incorrecta.");
+                 response.sendRedirect("login?error=" + java.net.URLEncoder.encode("Email o contraseña incorrectos", "UTF-8"));
+                 return;
+            }
+
         } catch (DAOException ex) {
-           // preparamos la respuesta json
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            
-            ErrorRespuesta error = new ErrorRespuesta(ex.getMessage());
-            
-            response.getWriter().write(error.toString());
-            return;
-        }
-        
+            // Manejar errores específicos del DAO (ej: problema de conexión)
+            System.err.println("[SvLogin] DAOException durante inicio de sesión: " + ex.getMessage());
+            ex.printStackTrace();
+            // Podrías redirigir a una página de error o al login con un mensaje genérico
+             response.sendRedirect("login?error=" + java.net.URLEncoder.encode("Error al intentar iniciar sesión. Intente más tarde.", "UTF-8"));
+             return; // Importante salir
+         } catch (Exception e) {
+             // Capturar otras excepciones inesperadas
+             System.err.println("[SvLogin] Excepción inesperada durante inicio de sesión: " + e.getMessage());
+             e.printStackTrace();
+             response.sendRedirect("login?error=" + java.net.URLEncoder.encode("Ocurrió un error inesperado.", "UTF-8"));
+            return; // Importante salir
+         }
+
+
         // guardamos la sesion
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(); // Obtener o crear sesión
+
+        // 1. Guardar el objeto Usuario completo (ya lo haces)
         session.setAttribute("usuario", usuario);
-        
+        System.out.println("[SvLogin] Atributo 'usuario' establecido en sesión: " + usuario); // Log
+
+        // 2. *** AÑADIR ESTA LÍNEA PARA GUARDAR EL ID ***
+        //    Asegúrate que usuario.getId() devuelve Long o long
+        session.setAttribute("usuarioId", usuario.getId());
+        System.out.println("[SvLogin] Atributo 'usuarioId' establecido en sesión: " + usuario.getId()); // Log de confirmación
+
+        // Redirigir a la página principal
+        System.out.println("[SvLogin] Login exitoso. Redirigiendo a index.jsp");
         response.sendRedirect("index.jsp");
     }
 
