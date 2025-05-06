@@ -51,4 +51,11 @@ public interface IUsuariosDAO {
      * @throws DAOException si ocurre un error al verificar las credenciales.
      */
     Usuario iniciarSesion(String email, String contrasena) throws DAOException;
+    
+    /**
+     * Regresa una lista con todos los usuarios registrados en el sistema.
+     * @return Devuelve la lista de usuarios encontrados
+     * @throws DAOException si ocurre un error al buscar los usuarios.
+     */
+    List<Usuario> obtenerUsuariosTodos() throws DAOException;
 }

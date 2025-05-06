@@ -37,6 +37,24 @@ class UsuariosDAO implements IUsuariosDAO {
         return _instancia;
     }
 
+    public List<Usuario> obtenerUsuariosTodos() throws DAOException {
+        EntityManager em = Conexion.getInstance().crearConexion();
+
+        try {
+            TypedQuery<Usuario> query = em.createQuery(
+                    "SELECT u FROM Usuario u",
+                    Usuario.class
+            );
+            
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("### ERROR DAO obtenerUsuariosTodos: " + e.getMessage());
+            throw new DAOException("Error al buscar los usuarios registrados.");
+        } finally {
+            em.close();
+        }
+    }
+    
     @Override
     public Usuario obtenerUsuario(Long id) throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();

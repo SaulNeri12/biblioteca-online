@@ -45,15 +45,15 @@ public class SvLoginAdmin extends HttpServlet {
         
         try{
             //consultamos al administrador
-            Administrador administrador = 
-                    administradorDAO.iniciarSesion(email, contrasena);
+            Administrador administrador = administradorDAO.iniciarSesion(email, contrasena);
             
             // guardamos la sesion
             HttpSession session = request.getSession();
-            session.setAttribute("usuario", administrador);
+            session.setAttribute("usuarioAdmin", administrador);
         
             //nos redirigimos a la pagina de inicio
-            response.sendRedirect("indexAdministrador.jsp");
+            //response.sendRedirect("/jsp/indexAdministrador.jsp");
+            request.getRequestDispatcher("/jsp/indexAdministrador.jsp").forward(request, response);
         
          } catch (DAOException ex) {
            // preparamos la respuesta json

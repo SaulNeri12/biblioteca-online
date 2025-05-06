@@ -14,6 +14,16 @@
     </head>
     <body>
         
+        <%
+            // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
+            if (session.getAttribute("usuarioAdmin") == null) {
+                request.getRequestDispatcher("/jsp/loginAdministrador.jsp").forward(request, response);
+                return;
+            }
+        %>
+        
+        <a href="${pageContext.request.contextPath}/jsp/usuariosAdministrador.jsp">Usuarios</a>
+        
         <!-- boton para agregar un nuevo libro -->
         <button id="btn-agregar" onclick="abrirModalAgregar()">agregar</button>
         

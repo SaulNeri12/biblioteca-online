@@ -16,8 +16,8 @@
 
         <%
             // si el usuario tiene una sesion en curso, se lleva directo a la pagna de inicio
-            if (session.getAttribute("usuario") != null) {
-                response.sendRedirect("index.jsp");
+            if (session.getAttribute("usuarioAdmin") != null) {
+                request.getRequestDispatcher("/jsp/indexAdministrador.jsp").forward(request, response);
                 return;
             }
         %>
