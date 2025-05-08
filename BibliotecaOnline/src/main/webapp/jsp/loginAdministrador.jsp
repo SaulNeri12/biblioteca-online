@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/loginAdmin.css">
     </head>
     <body>
 
@@ -33,6 +33,6 @@
 
             <button type="submit">Entrar</button>
         </form>
-
+        <script src="${pageContext.request.contextPath}/js/admin-login.js"></script>
     </body>
 </html>

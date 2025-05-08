@@ -1,0 +1,141 @@
+/* 
+    Created on : 6 may 2025
+    Author     : sebastian
+    Description: Estilos para la página de administración con efecto neón
+*/
+
+:root {
+    --primary-color: #050a18;
+    --secondary-color: #0ef;
+    --accent-color: #ff36c7;
+    --text-color: #f8f8f8;
+    --input-bg: #1a1a2e;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background: var(--primary-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h2 {
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px var(--secondary-color);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: var(--secondary-color);
+    background: transparent;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+}
+
+button:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+}
+
+form {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 500px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid var(--text-color);
+    background: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+    outline: none;
+    border-bottom: 2px solid var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.contenedor-libros {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+.contenedor-libros h3 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.dialog-eliminacion,
+.dialog-agregar,
+.dialog-editar {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 20px;
+    color: var(--text-color);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+.dialog-eliminacion h3,
+.dialog-agregar h2,
+.dialog-editar h2 {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-color);
+    margin-bottom: 20px;
+}

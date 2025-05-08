@@ -1,0 +1,92 @@
+/* 
+    Created on : 6 may 2025
+    Author     : sebastian
+    Description: Estilos para la página de usuarios registrados con efecto neón
+*/
+
+:root {
+    --primary-color: #050a18;
+    --secondary-color: #0ef;
+    --accent-color: #ff36c7;
+    --text-color: #f8f8f8;
+    --table-bg: rgba(0, 0, 0, 0.5);
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background: var(--primary-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h2 {
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.usuarios-lista-contenedor {
+    width: 100%;
+    max-width: 800px;
+    background: var(--table-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table thead {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--text-color);
+}
+
+table tr:hover {
+    background: rgba(14, 255, 255, 0.1);
+}
+
+.usuarios-alerta {
+    background: rgba(255, 54, 199, 0.1);
+    color: var(--accent-color);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+}

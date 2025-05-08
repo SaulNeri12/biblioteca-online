@@ -18,6 +18,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Administracion | Usuarios Registrados</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/usuariosAdmin.css">
     </head>
     <body>
         <%
@@ -86,5 +87,7 @@
                     </tbody>
                 </table>
         </div>
+        
+        <script src="${pageContext.request.contextPath}/js/usuariosAdmin.js"></script>
     </body>
 </html>
