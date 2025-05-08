@@ -5,7 +5,7 @@
    version="4.0">
     <session-config>
         <session-timeout>
-            1
+            2 <!--[minutos]-->
         </session-timeout>
     </session-config>
     
