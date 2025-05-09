@@ -45,7 +45,7 @@ class UsuariosDAO implements IUsuariosDAO {
                     "SELECT u FROM Usuario u",
                     Usuario.class
             );
-            
+
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("### ERROR DAO obtenerUsuariosTodos: " + e.getMessage());
@@ -54,7 +54,7 @@ class UsuariosDAO implements IUsuariosDAO {
             em.close();
         }
     }
-    
+
     @Override
     public Usuario obtenerUsuario(Long id) throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();
@@ -143,7 +143,7 @@ class UsuariosDAO implements IUsuariosDAO {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            
+
             throw new DAOException(e.getMessage());
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
@@ -176,6 +176,106 @@ class UsuariosDAO implements IUsuariosDAO {
         } catch (Exception e) {
             System.out.println("### ERROR DAO iniciarSesion: " + e.getMessage());
             throw new DAOException("Error al iniciar sesión.");
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public boolean actualizarUsuario(Usuario usuario) throws DAOException {
+        EntityManager em = Conexion.getInstance().crearConexion();
+
+        try {
+            Usuario usuarioExistente = em.find(Usuario.class, usuario.getId());
+
+            if (usuarioExistente == null) {
+                throw new DAOException("El usuario no existe.");
+            }
+
+            // Validaciones
+            if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+                throw new DAOException("El nombre es obligatorio.");
+            }
+
+            if (usuario.getTelefono() == null || usuario.getTelefono().trim().isEmpty()) {
+                throw new DAOException("El teléfono es obligatorio.");
+            }
+
+            if (!usuario.getTelefono().matches("^\\d{10}$")) {
+                throw new DAOException("El teléfono debe tener 10 dígitos.");
+            }
+
+            if (usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+                throw new DAOException("La contraseña es obligatoria.");
+            }
+
+            if (usuario.getContrasena().length() < 6) {
+                throw new DAOException("La contraseña debe tener al menos 6 caracteres.");
+            }
+
+            // Comprobar si el nuevo teléfono ya lo tiene otro usuario
+            TypedQuery<Usuario> query = em.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.telefono = :telefono AND u.id <> :id",
+                    Usuario.class
+            );
+            query.setParameter("telefono", usuario.getTelefono());
+            query.setParameter("id", usuario.getId());
+
+            if (!query.getResultList().isEmpty()) {
+                throw new DAOException("El teléfono ya está en uso por otro usuario.");
+            }
+
+            // Solo se modifican los campos permitidos
+            em.getTransaction().begin();
+            usuarioExistente.setNombre(usuario.getNombre());
+            usuarioExistente.setTelefono(usuario.getTelefono());
+            usuarioExistente.setContrasena(usuario.getContrasena());
+            em.getTransaction().commit();
+
+            return true;
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("### ERROR DAO actualizarUsuario: " + e.getMessage());
+            throw new DAOException("Error al actualizar el usuario.");
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public boolean eliminarUsuario(Long id) throws DAOException {
+        EntityManager em = Conexion.getInstance().crearConexion();
+
+        try {
+            Usuario usuario = em.find(Usuario.class, id);
+
+            if (usuario == null) {
+                throw new DAOException("El usuario no existe.");
+            }
+
+            em.getTransaction().begin();
+            em.remove(usuario);
+            em.getTransaction().commit();
+
+            return true;
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("### ERROR DAO eliminarUsuario: " + e.getMessage());
+            throw new DAOException("Error al eliminar el usuario.");
         } finally {
             em.close();
         }
