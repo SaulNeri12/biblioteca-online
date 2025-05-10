@@ -160,7 +160,7 @@ let idUsuarioEliminar;
         
         // le agregamos una accion al boton de actualizar
         document.getElementById("btn-actualizar").addEventListener("click", event => {
-            editarCuentaUsuario(idUsuario);
+            editarCuentaUsuario(idUsuario, fila);
         });
     }
     
@@ -170,26 +170,24 @@ let idUsuarioEliminar;
      * @param {type} fila
      * @returns {undefined}
      */
-    function editarCuentaUsuario(idUsuario) {
+    function editarCuentaUsuario(idUsuario, fila) {
         const nombre = document.getElementById("nombre-usuario").value.trim();
         const correo = document.getElementById("correo-usuario").value.trim();
         const telefono = document.getElementById("telefono-usuario").value.trim();
         const fecha = new Date(document.getElementById("fecha-registro-usuario").value.trim());
-        
+
         const fechaNacimiento = fecha.toISOString();
-        console.log(fechaNacimiento);
 
         if (!nombre || !correo || !telefono || !fechaNacimiento) {
-            alert("Todos los campos son obligatorios.");
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Todos los campos son obligatorios.",
-                    timer: 2000,
-                    toast: true,
-                    position: 'top-right',
-                    showConfirmButton: false
-                });
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Todos los campos son obligatorios.",
+                timer: 2000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false
+            });
             return;
         }
 
@@ -200,8 +198,6 @@ let idUsuarioEliminar;
             telefono: telefono,
             fecha_nacimiento: fechaNacimiento
         };
-        
-        console.log(datos);
 
         fetch("http://localhost:8080/BibliotecaOnline/EditarUsuario", {
             method: "PUT",
@@ -211,31 +207,29 @@ let idUsuarioEliminar;
             body: JSON.stringify(datos)
         })
         .then(response => {
-            console.log("Estado de respuesta:", response.status);
-            if (!response.ok){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Error al actualizar al usuario",
-                    timer: 2000,
-                    toast: true,
-                    position: 'top-right',
-                    showConfirmButton: false
-                });
+            if (!response.ok) {
+                throw new Error("Error al actualizar el usuario");
             }
+            return response.json(); // Asumiendo que regresa JSON
         })
         .then(data => {
-            // Actualizar fila visualmente si lo deseas, o recargar
             Swal.fire({
                 icon: 'success',
-                title: 'Exito',
+                title: 'Éxito',
                 text: "Usuario actualizado correctamente",
                 timer: 2000,
                 toast: true,
                 position: 'top-right',
                 showConfirmButton: false
             });
-            //location.reload(); // o actualizar solo la fila si prefieres
+
+            // Actualizar las celdas de la fila
+            const celdas = fila.getElementsByTagName("td");
+            celdas[1].textContent = nombre;
+            celdas[2].textContent = correo;
+            celdas[3].textContent = telefono;
+            celdas[4].textContent = fecha.toLocaleDateString("es-MX"); // formato legible
+
         })
         .catch(error => {
             console.error("Error:", error);
