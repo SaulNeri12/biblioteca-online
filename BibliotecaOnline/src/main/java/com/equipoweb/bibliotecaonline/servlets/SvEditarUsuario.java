@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -56,5 +58,6 @@ public class SvEditarUsuario extends HttpServlet {
             response.getWriter().write("Error al editar al usuario: " + e.getMessage());
         }
     }
+
 
 }

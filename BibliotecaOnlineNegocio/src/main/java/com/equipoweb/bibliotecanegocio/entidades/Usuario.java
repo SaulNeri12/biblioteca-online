@@ -5,6 +5,7 @@
 
 package com.equipoweb.bibliotecanegocio.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -48,12 +49,12 @@ public class Usuario implements Serializable {
     private String telefono;
     
     @Column(name="contrasena", nullable=false)
-    @JsonProperty("contrasena")
+    @JsonIgnore
     private String contrasena;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @JsonProperty("fecha_nacimiento")
-    @Column(name="fecha_nacimiento", updatable = false)
+    @Column(name="fecha_nacimiento", updatable = true)
     private Date fechaNacimiento;
     
     @OneToMany(

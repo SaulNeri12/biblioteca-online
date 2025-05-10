@@ -206,14 +206,6 @@ class UsuariosDAO implements IUsuariosDAO {
                 throw new DAOException("El teléfono debe tener 10 dígitos.");
             }
 
-            if (usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
-                throw new DAOException("La contraseña es obligatoria.");
-            }
-
-            if (usuario.getContrasena().length() < 6) {
-                throw new DAOException("La contraseña debe tener al menos 6 caracteres.");
-            }
-
             // Comprobar si el nuevo teléfono ya lo tiene otro usuario
             TypedQuery<Usuario> query = em.createQuery(
                     "SELECT u FROM Usuario u WHERE u.telefono = :telefono AND u.id <> :id",
@@ -230,25 +222,38 @@ class UsuariosDAO implements IUsuariosDAO {
             em.getTransaction().begin();
             usuarioExistente.setNombre(usuario.getNombre());
             usuarioExistente.setTelefono(usuario.getTelefono());
-            usuarioExistente.setContrasena(usuario.getContrasena());
+            usuarioExistente.setEmail(usuario.getEmail());
+            usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
+            
+
+            // Solo actualizar contraseña si viene y no está vacía
+            if (usuario.getContrasena() != null && !usuario.getContrasena().trim().isEmpty()) {
+                if (usuario.getContrasena().length() < 6) {
+                    throw new DAOException("La contraseña debe tener al menos 6 caracteres.");
+                }
+                usuarioExistente.setContrasena(usuario.getContrasena());
+            }
+
+            // Realizar commit
             em.getTransaction().commit();
 
             return true;
         } catch (DAOException e) {
             if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+                try {
+                    em.getTransaction().rollback();
+                } catch (Exception rollbackEx) {
+                    System.out.println("### Error al hacer rollback: " + rollbackEx.getMessage());
+                }
             }
             throw e;
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            System.out.println("### ERROR DAO actualizarUsuario: " + e.getMessage());
+            e.printStackTrace();
             throw new DAOException("Error al actualizar el usuario.");
-        } finally {
-            em.close();
         }
     }
+
+
 
     @Override
     public boolean eliminarUsuario(Long id) throws DAOException {

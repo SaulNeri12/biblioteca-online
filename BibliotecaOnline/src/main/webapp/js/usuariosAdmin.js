@@ -148,8 +148,6 @@ let idUsuarioEliminar;
         const correo = celdas[2]?.textContent.trim();
         const telefono = celdas[3]?.textContent.trim();
         const fechaRegistro = celdas[4]?.textContent.trim();
-        
-        console.log(fechaRegistro);
 
         // Llenar los campos del formulario
         document.getElementById("nombre-usuario").value = nombre;
@@ -176,7 +174,10 @@ let idUsuarioEliminar;
         const nombre = document.getElementById("nombre-usuario").value.trim();
         const correo = document.getElementById("correo-usuario").value.trim();
         const telefono = document.getElementById("telefono-usuario").value.trim();
-        const fechaNacimiento = document.getElementById("fecha-registro-usuario").value;
+        const fecha = new Date(document.getElementById("fecha-registro-usuario").value.trim());
+        
+        const fechaNacimiento = fecha.toISOString();
+        console.log(fechaNacimiento);
 
         if (!nombre || !correo || !telefono || !fechaNacimiento) {
             alert("Todos los campos son obligatorios.");
@@ -197,17 +198,20 @@ let idUsuarioEliminar;
             nombre: nombre,
             email: correo,
             telefono: telefono,
-            fechaNacimiento: fechaNacimiento
+            fecha_nacimiento: fechaNacimiento
         };
+        
+        console.log(datos);
 
         fetch("http://localhost:8080/BibliotecaOnline/EditarUsuario", {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(datos)
         })
         .then(response => {
+            console.log("Estado de respuesta:", response.status);
             if (!response.ok){
                 Swal.fire({
                     icon: 'error',
@@ -222,9 +226,8 @@ let idUsuarioEliminar;
         })
         .then(data => {
             // Actualizar fila visualmente si lo deseas, o recargar
-            alert("Usuario actualizado correctamente");
             Swal.fire({
-                icon: 'succes',
+                icon: 'success',
                 title: 'Exito',
                 text: "Usuario actualizado correctamente",
                 timer: 2000,
@@ -232,8 +235,7 @@ let idUsuarioEliminar;
                 position: 'top-right',
                 showConfirmButton: false
             });
-            document.getElementById("dialog-editar").close();
-            location.reload(); // o actualizar solo la fila si prefieres
+            //location.reload(); // o actualizar solo la fila si prefieres
         })
         .catch(error => {
             console.error("Error:", error);

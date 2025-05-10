@@ -9,8 +9,7 @@ import com.equipoweb.bibliotecanegocio.dao.FabricaUsuariosDAO;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.IUsuariosDAO;
 import com.equipoweb.bibliotecanegocio.entidades.Usuario;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 
 /**
  *
@@ -19,51 +18,43 @@ import java.util.logging.Logger;
 public class EdicionUsuarios {
     public static void main(String[] args) {
         IUsuariosDAO usuarios = FabricaUsuariosDAO.getInstance().crearDAO();
-        
+
         Usuario u1 = null;
-        
+
         try {
             u1 = usuarios.obtenerUsuariosTodos().get(0);
+            System.out.println("ANTES:");
+            System.out.println("Nombre: " + u1.getNombre());
+            System.out.println("Email: " + u1.getEmail());
+            System.out.println("Fecha de nacimiento: " + u1.getFechaNacimiento());
         } catch (DAOException ex) {
             System.out.println("### " + ex.getMessage());
         }
+
+        u1.setNombre("sheshnain14");
+        u1.setEmail("noman2@example.com");
+        u1.setFechaNacimiento(new Date());
+        u1.setTelefono("1234567890");
         
-        u1.setContrasena("543210");
-        
+        System.out.println(u1.getFechaNacimiento());
+
         try {
             usuarios.actualizarUsuario(u1);
-            
-            System.out.println("usuario modificado!!! [contrasena]");
+            System.out.println("usuario modificado!!! [nombre/email/fecha]");
         } catch (DAOException ex) {
             System.out.println("### " + ex.getMessage());
         }
-        
-        u1.setNombre("sheshnain13");
-        
+
+        // Volver a obtener el usuario para verificar si los cambios se reflejan
         try {
-            usuarios.actualizarUsuario(u1);
-            
-            System.out.println("usuario modificado!!! [nombre]");
+            Usuario verificado = usuarios.obtenerUsuariosTodos().get(0);
+            System.out.println("DESPUÉS:");
+            System.out.println("Nombre: " + verificado.getNombre());
+            System.out.println("Email: " + verificado.getEmail());
+            System.out.println("Fecha de nacimiento: " + verificado.getFechaNacimiento());
         } catch (DAOException ex) {
-            System.out.println("### " + ex.getMessage());
-        }
-        
-        u1.setTelefono("9997775554");
-        
-        try {
-            usuarios.actualizarUsuario(u1);
-            
-            System.out.println("usuario modificado!!! [telefono]");
-        } catch (DAOException ex) {
-            System.out.println("### " + ex.getMessage());
-        }
-        
-        try {
-            usuarios.eliminarUsuario(u1.getId());
-            
-            System.out.println("usuario eliminado!!!");
-        } catch (DAOException ex) {
-            System.out.println("### " + ex.getMessage());
+            System.out.println("### Error al verificar: " + ex.getMessage());
         }
     }
 }
+
