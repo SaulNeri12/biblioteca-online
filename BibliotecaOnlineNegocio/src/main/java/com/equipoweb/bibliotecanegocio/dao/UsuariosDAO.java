@@ -37,6 +37,7 @@ class UsuariosDAO implements IUsuariosDAO {
         return _instancia;
     }
 
+    @Override
     public List<Usuario> obtenerUsuariosTodos() throws DAOException {
         EntityManager em = Conexion.getInstance().crearConexion();
 

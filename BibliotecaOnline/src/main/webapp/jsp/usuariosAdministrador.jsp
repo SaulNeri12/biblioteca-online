@@ -63,7 +63,8 @@
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Telefono</th>
-                        <th>Fecha de Registro</th
+                        <th>Fecha de Registro</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,55 +92,18 @@
                 </tbody>
             </table>
         </div>
-
-        <script>
-
-            async function eliminarCuentaUsuario(evento) {
-                // Obtener la fila que contiene el botón pulsado
-                const fila = evento.target.closest("tr");
-
-                // Verificar si la fila y el id de usuario existen
-                const idUsuario = fila?.getAttribute("data-fila-id");
-                
-                if (!idUsuario) {
-                    alert("ID del usuario no encontrado.");
-                    return;
-                }
-
-                // Confirmación del usuario antes de eliminar
-                const confirmado = window.confirm("¿Estás seguro de que deseas eliminar este usuario?");
-                if (!confirmado) {
-                    console.log("Eliminación cancelada.");
-                    return;
-                }
-
-                // Intentamos realizar la eliminación de forma asíncrona
-                try {
-                    const respuesta = await fetch(`http://localhost:8080/BibliotecaOnline/usuario?id_usuario=${idUsuario}`, {
-                        method: 'DELETE'
-                    });
-
-                    // Verificamos si la respuesta fue exitosa
-                    if (!respuesta.ok) {
-                        const errorData = await respuesta.json(); // Intentamos parsear el mensaje de error
-                        alert(`Error al eliminar: ${errorData.error || errorData.mensaje}`);
-                        return;
-                    }
-
-                    // Si todo salió bien, eliminamos la fila del DOM
-                    const data = await respuesta.json();
-                    alert(data.mensaje);  // Mostramos el mensaje de éxito
-                    fila.remove();  // Eliminar la fila de la tabla
-
-                } catch (error) {
-                    // Si ocurre algún error (red, servidor, etc.)
-                    console.error("Error de red o inesperado:", error);
-                    alert("Ocurrió un error al intentar eliminar el usuario.");
-                }
-            }
-
-
-        </script>
+        
+        <dialog id="dialog-eliminar" closedby="any">
+            <div class="contenido-dialog-eliminar">
+                <p>¿Esta seguro que desea eliminar al usuario?</p>
+                <p>esta accion no puede ser desecha</p>
+                <form method="dialog" onClick="eliminarCuentaUsuario(evento)">
+                    <button onClick="">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+        </dialog>
 
         <script src="${pageContext.request.contextPath}/js/usuariosAdmin.js"></script>
     </body>

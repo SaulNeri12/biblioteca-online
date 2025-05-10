@@ -23,7 +23,7 @@ public class EdicionUsuarios {
         Usuario u1 = null;
         
         try {
-            u1 = usuarios.obtenerUsuariosTodos().getFirst();
+            u1 = usuarios.obtenerUsuariosTodos().get(0);
         } catch (DAOException ex) {
             System.out.println("### " + ex.getMessage());
         }
