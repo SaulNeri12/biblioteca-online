@@ -44,9 +44,6 @@ public class SvEliminarUsuario extends HttpServlet {
         String idUsuarioParametro = request.getParameter("id_usuario");
         
         System.out.println("Query String: " + request.getQueryString()); // Ver qué datos llegan
-        
-        //System.out.println(idUsuarioParametro);
-         
 
         if (idUsuarioParametro == null) {
             this.sendErrorJSON(response, "No se envió el ID del usuario.");

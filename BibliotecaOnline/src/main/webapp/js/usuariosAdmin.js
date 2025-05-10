@@ -132,28 +132,119 @@ let idUsuarioEliminar;
     
     /**
      * 
-     * 
      * @param {type} event
      * @returns {undefined}
      */
-    function abrirModalEditar(event){
+    function abrirModalEditar(event) {
         // Obtener la fila que contiene el botón pulsado
-        let fila = event.target.closest("tr");
+        const fila = event.target.closest("tr");
 
         // Verificar si la fila y el id de usuario existen
-        let idUsuario = fila?.getAttribute("data-fila-id");
-        console.log(idUsuario);
-        
-        //  asignamos los valores obtenidos de la fila a editar en sus campos 
-        //  correspondientes
-        
-        
-        //abrimos la modal 
-        let modal = document.querySelector('#dialog-editar');
-        modal.showModal(); // Muestra la modal
-    }
+        const idUsuario = fila?.getAttribute("data-fila-id");
+        if (!idUsuario || !fila) return;
 
-  
-  function editarCuentaUsuario(event){
-      console.log("entre al evento de editar usuario")
-  }
+        const celdas = fila.querySelectorAll("td");
+        const nombre = celdas[1]?.textContent.trim();
+        const correo = celdas[2]?.textContent.trim();
+        const telefono = celdas[3]?.textContent.trim();
+        const fechaRegistro = celdas[4]?.textContent.trim();
+        
+        console.log(fechaRegistro);
+
+        // Llenar los campos del formulario
+        document.getElementById("nombre-usuario").value = nombre;
+        document.getElementById("correo-usuario").value = correo;
+        document.getElementById("telefono-usuario").value = telefono;
+        document.getElementById("fecha-registro-usuario").value = fechaRegistro;
+
+        // Abrimos la modal
+        document.querySelector('#dialog-editar').showModal();
+        
+        // le agregamos una accion al boton de actualizar
+        document.getElementById("btn-actualizar").addEventListener("click", event => {
+            editarCuentaUsuario(idUsuario);
+        });
+    }
+    
+    /**
+     * 
+     * @param {type} idUsuario
+     * @param {type} fila
+     * @returns {undefined}
+     */
+    function editarCuentaUsuario(idUsuario) {
+        const nombre = document.getElementById("nombre-usuario").value.trim();
+        const correo = document.getElementById("correo-usuario").value.trim();
+        const telefono = document.getElementById("telefono-usuario").value.trim();
+        const fechaNacimiento = document.getElementById("fecha-registro-usuario").value;
+
+        if (!nombre || !correo || !telefono || !fechaNacimiento) {
+            alert("Todos los campos son obligatorios.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Todos los campos son obligatorios.",
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-right',
+                    showConfirmButton: false
+                });
+            return;
+        }
+
+        const datos = {
+            id: idUsuario,
+            nombre: nombre,
+            email: correo,
+            telefono: telefono,
+            fechaNacimiento: fechaNacimiento
+        };
+
+        fetch("http://localhost:8080/BibliotecaOnline/EditarUsuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datos)
+        })
+        .then(response => {
+            if (!response.ok){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Error al actualizar al usuario",
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-right',
+                    showConfirmButton: false
+                });
+            }
+        })
+        .then(data => {
+            // Actualizar fila visualmente si lo deseas, o recargar
+            alert("Usuario actualizado correctamente");
+            Swal.fire({
+                icon: 'succes',
+                title: 'Exito',
+                text: "Usuario actualizado correctamente",
+                timer: 2000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false
+            });
+            document.getElementById("dialog-editar").close();
+            location.reload(); // o actualizar solo la fila si prefieres
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Error al actualizar al usuario",
+                timer: 2000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false
+            });
+        });
+    }

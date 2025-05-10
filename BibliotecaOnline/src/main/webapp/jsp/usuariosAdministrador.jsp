@@ -12,6 +12,7 @@
 <%@page import="com.equipoweb.bibliotecanegocio.dao.interfaces.IUsuariosDAO"%>
 <%@page import="com.equipoweb.bibliotecanegocio.dao.FabricaUsuariosDAO"%>
 <%@page import="com.equipoweb.bibliotecanegocio.dao.FabricaUsuariosDAO"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -50,7 +51,7 @@
             <div class="usuarios-alerta">
                 <p><%= ex.getMessage()%></p>
             </div>
-
+                
             <%
                 }
 
@@ -69,6 +70,9 @@
                 </thead>
                 <tbody>
                     <%
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    %>
+                    <%
                         for (Usuario u : usuarios) {
 
                     %>
@@ -77,7 +81,7 @@
                         <td><%= u.getNombre()%></td>
                         <td><%= u.getEmail()%></td>
                         <td><%= u.getTelefono()%></td>
-                        <td><%= u.getFechaNacimiento()%></td>
+                        <td><%= sdf.format(u.getFechaNacimiento()) %></td>
                         <td>
                             <button class="btn-eliminar-usuario" onclick="abrirModalEliminar(event)">Eliminar</button>
                         </td>
@@ -102,6 +106,23 @@
                     <button id="btn-eliminar">
                         Eliminar
                     </button>
+                </form>
+            </div>
+        </dialog>
+        
+        <!-- ventana de dialogo para la edicion de un usuario -->
+        <dialog id="dialog-editar" closedby="any">  
+            <div class="contenido-dialog-editar">
+                <form class="form-editar-usuario" method="dialog">
+                    <label>Nombre:</label>
+                    <input type="text" id="nombre-usuario" required><br>
+                    <label>Correo:</label>
+                    <input type="text" id="correo-usuario" required><br>
+                    <label>Telefono:</label>
+                    <input type="text" id="telefono-usuario" required><br>
+                    <label>Fecha de registro:</label>
+                    <input type="date" id="fecha-registro-usuario" required><br>
+                    <button id="btn-actualizar">Actualizar</button>
                 </form>
             </div>
         </dialog>

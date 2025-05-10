@@ -4,9 +4,10 @@
  */
 package com.equipoweb.bibliotecaonline.servlets;
 
-import com.equipoweb.bibliotecanegocio.dao.FabricaLibroDAO;
-import com.equipoweb.bibliotecanegocio.dao.interfaces.ILibroDAO;
-import com.equipoweb.bibliotecanegocio.entidades.Libro;
+import com.equipoweb.bibliotecanegocio.dao.FabricaUsuariosDAO;
+import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
+import com.equipoweb.bibliotecanegocio.dao.interfaces.IUsuariosDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,12 +21,14 @@ import java.io.IOException;
  *
  * @author skevi
  */
-@WebServlet(name = "SvEditarLibro", urlPatterns = {"/EditarLibro"})
-public class SvEditarLibro extends HttpServlet {
+@WebServlet(name = "SvEditarUsuario", urlPatterns = {"/EditarUsuario"})
+public class SvEditarUsuario extends HttpServlet {
 
-    private final ILibroDAO libroDAO = FabricaLibroDAO.getInstance().crearDAO();
+    private IUsuariosDAO usuarios = FabricaUsuariosDAO.getInstance().crearDAO();
     
     /**
+     * Endpoint que recibe un json con la nueva informacion de un usuario y lo
+     * manda actualizar en la base de datos.
      * 
      * @param request
      * @param response
@@ -39,19 +42,19 @@ public class SvEditarLibro extends HttpServlet {
         try {
             BufferedReader reader = request.getReader();
             ObjectMapper mapper = new ObjectMapper();
-            Libro libroActualizado = mapper.readValue(reader, Libro.class);
+            Usuario usuarioActualizado = mapper.readValue(reader, Usuario.class);
 
             // Lógica de edición con el DAO
-            libroDAO.actualizarLibro(libroActualizado);
+            usuarios.actualizarUsuario(usuarioActualizado);
 
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
-            mapper.writeValue(response.getWriter(), libroActualizado);
+            mapper.writeValue(response.getWriter(), usuarioActualizado);
 
-        } catch (Exception e) {
+        } catch (DAOException | IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error al editar el libro: " + e.getMessage());
+            response.getWriter().write("Error al editar al usuario: " + e.getMessage());
         }
     }
-    
+
 }
