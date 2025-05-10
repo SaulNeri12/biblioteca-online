@@ -79,10 +79,10 @@
                         <td><%= u.getTelefono()%></td>
                         <td><%= u.getFechaNacimiento()%></td>
                         <td>
-                            <button class="btn-eliminar-usuario" onclick="eliminarCuentaUsuario(event)">Eliminar</button>
+                            <button class="btn-eliminar-usuario" onclick="abrirModalEliminar(event)">Eliminar</button>
                         </td>
                         <td>
-                            <button class="btn-editar-usuario" onclick="editarCuentaUsuario(event)">Editar</button>
+                            <button class="btn-editar-usuario" onclick="abrirModalEditar(event)">Editar</button>
                         </td>
                     </tr>
                     <%
@@ -93,18 +93,21 @@
             </table>
         </div>
         
+        <!-- ventana de dialogo para la confirmacion de eliminacion -->
         <dialog id="dialog-eliminar" closedby="any">
             <div class="contenido-dialog-eliminar">
                 <p>¿Esta seguro que desea eliminar al usuario?</p>
                 <p>esta accion no puede ser desecha</p>
-                <form method="dialog" onClick="eliminarCuentaUsuario(evento)">
-                    <button onClick="">
+                <form method="dialog">
+                    <button id="btn-eliminar">
                         Eliminar
                     </button>
                 </form>
             </div>
         </dialog>
-
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="${pageContext.request.contextPath}/js/usuariosAdmin.js"></script>
+        
     </body>
 </html>

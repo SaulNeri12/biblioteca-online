@@ -4,6 +4,8 @@
  * Description: JavaScript para la página de usuarios registrados
  */
 
+let idUsuarioEliminar;
+
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Usuarios admin page loaded');
 
@@ -49,70 +51,108 @@
     
     /**
      * Funcion para abrir la modal de confirmacion de eliminacion del libro
-     * @returns {undefined}
-     */
-    function abrirModalEliminar(){
-        //abrimos la modal de confirmacion de eliminacion
-        let modal = document.querySelector('.dialog-agregar');
-        modal.showModal();  // Muestra la modal
-    }
-    
-    /**
      * 
+     * @param {type} event
      * @returns {undefined}
      */
-    function abrirModalEditar(){
-        //asignamos los valores obtenidos de la fila a editar en sus campos 
-        //  correspondientes
-        
-        //abrimos la modal 
-    }
-
-    function eliminarCuentaUsuario(evento) {
+    function abrirModalEliminar(event) {
         // Obtener la fila que contiene el botón pulsado
-        const fila = evento.target.closest("tr");
+        const fila = event.target.closest("tr");
 
         // Verificar si la fila y el id de usuario existen
         const idUsuario = fila?.getAttribute("data-fila-id");
         console.log(idUsuario);
-                
-        if (!idUsuario) {
-        alert("ID del usuario no encontrado.");
-            return;
-         }
-
-        // Confirmación del usuario antes de eliminar
-        const confirmado = window.confirm("¿Estás seguro de que deseas eliminar este usuario?");
-        if (!confirmado) {
-        console.log("Eliminación cancelada.");
-           return;
-        }
-
-        // Intentamos realizar la eliminación de forma asíncrona
-        try {
-        const respuesta = fetch(`http://localhost:8080/BibliotecaOnline/usuario?id_usuario=${idUsuario}`, {
-                method: 'DELETE'
+        
+        // Abrimos la modal de confirmación de eliminación
+        let modal = document.querySelector('#dialog-eliminar');
+        modal.showModal(); // Muestra la modal
+        
+        //le damos una accion al boton de la modal
+        document.getElementById("btn-eliminar").addEventListener("click", event =>{
+           eliminarCuentaUsuario(idUsuario, fila); 
         });
+    }
 
-        // Verificamos si la respuesta fue exitosa
-        if (!respuesta.ok) {
-        const errorData =  respuesta.json(); // Intentamos parsear el mensaje de error
-            alert(`Error al eliminar: ${errorData.error || errorData.mensaje}`);
-            return;
-        }
+    /**
+     * 
+     * @param {type} idUsuario
+     * @param {type} fila
+     * @returns {undefined}
+     */
+    async function eliminarCuentaUsuario(idUsuario, fila) {
+        try {
+            const respuesta = await fetch(`http://localhost:8080/BibliotecaOnline/EliminarUsuario?id_usuario=${idUsuario}`, {
+                method: 'DELETE'
+            });
 
-        // Si todo salió bien, eliminamos la fila del DOM
-        const data = respuesta.json();
-        alert(data.mensaje);  // Mostramos el mensaje de éxito
-        fila.remove();  // Eliminar la fila de la tabla
+            const data = await respuesta.json(); 
+
+            if (!respuesta.ok) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al eliminar el usuario',
+                    text: data.error || data.mensaje || "Error desconocido",
+                    timer: 2000,
+                    toast: true,
+                    position: 'top-right',
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            // Eliminación exitosa
+            Swal.fire({
+                icon: 'success',
+                title: 'Eliminado',
+                text: data.mensaje || 'Usuario eliminado con éxito',
+                timer: 2000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false
+            });
+
+            fila.remove();
+            console.log("Usuario eliminado con exito");
 
         } catch (error) {
-            // Si ocurre algún error (red, servidor, etc.)
             console.error("Error de red o inesperado:", error);
-            alert("Ocurrió un error al intentar eliminar el usuario.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Ocurrió un error al intentar eliminar el usuario.",
+                timer: 2000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false
+            });
+            console.log("error al eliminar el usuario: " + error);
         }
+    }
 
-  }
+    
+    /**
+     * 
+     * 
+     * @param {type} event
+     * @returns {undefined}
+     */
+    function abrirModalEditar(event){
+        // Obtener la fila que contiene el botón pulsado
+        let fila = event.target.closest("tr");
+
+        // Verificar si la fila y el id de usuario existen
+        let idUsuario = fila?.getAttribute("data-fila-id");
+        console.log(idUsuario);
+        
+        //  asignamos los valores obtenidos de la fila a editar en sus campos 
+        //  correspondientes
+        
+        
+        //abrimos la modal 
+        let modal = document.querySelector('#dialog-editar');
+        modal.showModal(); // Muestra la modal
+    }
+
   
   function editarCuentaUsuario(event){
       console.log("entre al evento de editar usuario")

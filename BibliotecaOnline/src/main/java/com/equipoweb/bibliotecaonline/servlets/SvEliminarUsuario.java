@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @author neri
  */
-@WebServlet(name = "SvUsuario", urlPatterns = {"/usuario"})
+@WebServlet(name = "SvUsuario", urlPatterns = {"/EliminarUsuario"})
 public class SvEliminarUsuario extends HttpServlet {
 
     private IUsuariosDAO usuarios = FabricaUsuariosDAO.getInstance().crearDAO();
