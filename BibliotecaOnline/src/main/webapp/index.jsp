@@ -123,16 +123,14 @@
         </div> <%-- Fin de .container --%>
 
         <%-- Estructura HTML del Modal de Favoritos (fuera del .container principal es común) --%>
-        <dialog id="modal-favoritos" class="dialog-favoritos">
+        <dialog id="modal-favoritos" class="dialog-favoritos" closedby="any">
           <h2 class="modal-title">Mis Libros Favoritos</h2>
           <%-- Contenedor donde el JS cargará las tarjetas de libros favoritos --%>
           <div id="contenedor-favoritos-modal" class="books-container modal-books-container">
              <p class="loading-indicator">Cargando favoritos...</p> <%-- Indicador inicial --%>
           </div>
           <%-- Acciones del modal (botón de cierre) --%>
-          <div class="modal-actions">
-            <button id="btn-cerrar-modal-favoritos" class="btn btn-secondary">Cerrar</button>
-          </div>
+          
         </dialog>
 
         <%-- Inclusión de Scripts JavaScript al final del body --%>

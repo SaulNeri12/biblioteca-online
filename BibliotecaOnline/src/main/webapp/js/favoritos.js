@@ -185,7 +185,7 @@ function cargarLibrosEnContenedor(libros = [], contenedor) {
 
 /**
  * Maneja el clic en un icono de favorito para agregarlo o eliminarlo.
- * (Sin cambios respecto a tu versión anterior, parece correcta)
+ * 
  * @param {Event} event El evento de clic.
  */
 async function toggleFavoritoHandler(event) {
@@ -207,15 +207,34 @@ async function toggleFavoritoHandler(event) {
             iconoSpan.classList.remove('favorito-activo');
             iconoInterno.classList.remove('fas');
             iconoInterno.classList.add('far');
-             // Opcional: Si estamos en el modal de favoritos, quitar la tarjeta
-             const modalContenedor = document.getElementById('contenedor-favoritos-modal');
-             if (modalContenedor && iconoSpan.closest('#contenedor-favoritos-modal')) {
-                 iconoSpan.closest('.carta-libro').remove();
-                 // Verificar si el modal quedó vacío
-                 if (!modalContenedor.querySelector('.carta-libro')) {
-                     modalContenedor.innerHTML = '<p class="no-books-message">Ya no tienes libros favoritos.</p>';
-                 }
-             }
+
+            // Si estamos en el modal de favoritos, quitar la tarjeta y recargar la principal
+            const modalContenedor = document.getElementById('contenedor-favoritos-modal');
+            if (modalContenedor && iconoSpan.closest('#contenedor-favoritos-modal')) {
+                iconoSpan.closest('.carta-libro').remove();
+                // Verificar si el modal quedó vacío
+                if (!modalContenedor.querySelector('.carta-libro')) {
+                    modalContenedor.innerHTML = '<p class="no-books-message">Ya no tienes libros favoritos.</p>';
+                }
+
+                // Recargar los libros de la página principal
+                const $contenedorLibrosPrincipal = document.getElementById("contenedor-libros");
+                if ($contenedorLibrosPrincipal) {
+                    try {
+                        console.log("Recargando libros principales...");
+                        const librosTodos = await buscarLibros();
+                        cargarLibrosEnContenedor(librosTodos, $contenedorLibrosPrincipal);
+                        if (typeof agregarEfectosVisuales === 'function') {
+                            setTimeout(() => agregarEfectosVisuales($contenedorLibrosPrincipal), 150);
+                        }
+                        // La lista global listaIsbnFavoritos ya se actualizó en eliminarFavoritoAPI
+                        // No necesitamos hacer nada más aquí para la selección visual en la principal
+                    } catch (error) {
+                        console.error("Error al recargar libros principales:", error);
+                        $contenedorLibrosPrincipal.innerHTML = `<p class="error-message">Ocurrió un error al recargar los libros: ${error.message}.</p>`;
+                    }
+                }
+            }
         }
     } else {
         exito = await agregarFavoritoAPI(isbn);
@@ -223,14 +242,14 @@ async function toggleFavoritoHandler(event) {
             iconoSpan.classList.add('favorito-activo');
             iconoInterno.classList.remove('far');
             iconoInterno.classList.add('fas');
+            // La actualización visual en la principal ya se maneja al cargar los libros inicialmente
         }
     }
     iconoSpan.style.pointerEvents = 'auto'; // Rehabilitar clic
 }
-
 /**
  * Abre el modal de favoritos y carga la lista de libros.
- * (Sin cambios respecto a tu versión anterior, parece correcta)
+ * 
  * @param {Event} event El evento de clic.
  */
 async function mostrarModalFavoritos() {
@@ -241,6 +260,13 @@ async function mostrarModalFavoritos() {
     contenedorModal.innerHTML = '<p class="loading-indicator">Cargando tus favoritos...</p>';
     modal.showModal();
 
+    // Añadir el listener para cerrar el modal al hacer clic fuera de él
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.close();
+        }
+    });
+
     const librosFavoritos = await obtenerFavoritosAPI(); // Obtiene la lista actualizada
 
     // Usar la misma función para cargar, pasándole el contenedor del modal
@@ -248,8 +274,8 @@ async function mostrarModalFavoritos() {
 
     // Opcional: Aplicar efectos visuales también al modal si es necesario
     if (typeof agregarEfectosVisuales === 'function') {
-       // Esperar un poco para que el DOM se actualice antes de aplicar efectos
-       setTimeout(() => agregarEfectosVisuales(contenedorModal), 150);
+        // Esperar un poco para que el DOM se actualice antes de aplicar efectos
+        setTimeout(() => agregarEfectosVisuales(contenedorModal), 150);
     }
 }
 
