@@ -54,8 +54,28 @@ public interface IUsuariosDAO {
     
     /**
      * Regresa una lista con todos los usuarios registrados en el sistema.
-     * @return Devuelve la lista de usuarios encontrados
+     * 
+     * @return Devuelve la lista de usuarios encontrados.
      * @throws DAOException si ocurre un error al buscar los usuarios.
      */
     List<Usuario> obtenerUsuariosTodos() throws DAOException;
+    
+    /**
+     * Actualiza la información de la cuenta de un usuario en el sistema.
+     * 
+     * @param usuario Objeto Usuario a modificar
+     * @return true si se actualizaron los campos del usuario en el sistema.
+     * @throws DAOException Si ocurre un error al actualizar la información del 
+     * usuario en la base de datos.
+     */
+    boolean actualizarUsuario(Usuario usuario) throws DAOException;
+    
+    /**
+     * Elimina una cuenta de un usuario en el sistema.
+     * 
+     * @param id ID de la cuenta del usuario.
+     * @return true si fue posible eliminar la cuenta.
+     * @throws DAOException Si no se pudo eliminar la cuenta debido a un error interno.
+     */
+    boolean eliminarUsuario(Long id) throws DAOException;
 }
