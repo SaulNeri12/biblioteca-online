@@ -96,12 +96,12 @@ public class SvRegistro extends HttpServlet {
         }
         
         // guardamos la sesion
-        usuario.setContrasena(null);
-        HttpSession session = request.getSession();
-        session.setAttribute("usuario", usuario);
+        //usuario.setContrasena(null);
+        //HttpSession session = request.getSession();
+        //session.setAttribute("usuario", usuario);
         
         // Redireccionar al JSP
-        request.getRequestDispatcher("/jsp/usuario.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
         //response.sendRedirect("usuario");
     }
 
