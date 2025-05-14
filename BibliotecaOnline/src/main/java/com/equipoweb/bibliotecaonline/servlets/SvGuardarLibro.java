@@ -72,7 +72,7 @@ public class SvGuardarLibro extends HttpServlet {
             response.getWriter().write("{\"mensaje\": \"Libro guardado con éxito.\"}");
 
         } catch (DAOException ex) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al guardar el libro.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar el libro, verifique los datos del mismo.");
             ex.printStackTrace();
         } catch (NumberFormatException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Año o número de páginas inválido.");

@@ -179,7 +179,7 @@ function cargarLibrosEnContenedor(libros = [], contenedor) {
         const esFavorito = listaIsbnFavoritos.has(libro.isbn);
         const $cartaLibroHTML = crearCartaLibro(libro, contador, esFavorito);
         contenedor.insertAdjacentHTML("beforeend", $cartaLibroHTML);
-        contador++;
+        //contador++;
     });
 }
 
