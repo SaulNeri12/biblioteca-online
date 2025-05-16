@@ -7,7 +7,11 @@ package com.equipoweb.bibliotecanegocio.dao;
 import com.equipoweb.bibliotecanegocio.conexion.Conexion;
 import com.equipoweb.bibliotecanegocio.dao.excepciones.DAOException;
 import com.equipoweb.bibliotecanegocio.dao.interfaces.ILibroDAO;
+import com.equipoweb.bibliotecanegocio.entidades.Autor;
+import com.equipoweb.bibliotecanegocio.entidades.Genero;
 import com.equipoweb.bibliotecanegocio.entidades.Libro;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.persistence.*;
 import java.util.List;
 
@@ -59,11 +63,10 @@ class LibroDAO implements ILibroDAO {
         }
     }
 
-    
     /**
      * Busca libros por nombre, genero y nombre del autor, si alguno de los
      * parametros esta vacio no se considera para la busqueda.
-     * 
+     *
      * @param nombre Nombre del libro a buscar.
      * @param genero Genero del libro a buscar.
      * @param nombreAutor Nombre del autor del libro a buscar.
@@ -105,11 +108,11 @@ class LibroDAO implements ILibroDAO {
             if (nombreAutor != null && !nombreAutor.trim().isEmpty()) {
                 query.setParameter("nombreAutor", "%" + nombreAutor + "%");
             }
-            
-            query.setMaxResults(20); 
-            
+
+            query.setMaxResults(20);
+
             return query.getResultList();
-            
+
         } catch (Exception e) {
             throw new DAOException("Error al buscar libros");
         } finally {
@@ -119,7 +122,6 @@ class LibroDAO implements ILibroDAO {
         }
     }
 
-    
     /**
      * Registra un nuevo libro en la base de datos.
      *
@@ -128,8 +130,75 @@ class LibroDAO implements ILibroDAO {
      */
     @Override
     public void registrarLibro(Libro libro) throws DAOException {
-        if (libro == null || libro.getNombre() == null || libro.getNombre().isBlank() || libro.getAutor() == null) {
-            throw new DAOException("El libro o sus datos obligatorios son nulos o inválidos.");
+
+        // Validación de objeto libro
+        if (libro == null) {
+            throw new DAOException("El objeto Libro es nulo.");
+        }
+
+        // Validación de nombre (título)
+        if (libro.getNombre() == null || libro.getNombre().isBlank()) {
+            throw new DAOException("El título del libro es nulo o está vacío.");
+        }
+
+        // Validación de descripción
+        if (libro.getDescripcion() == null || libro.getDescripcion().isBlank()) {
+            throw new DAOException("La descripción del libro es nula o está vacía.");
+        }
+
+        // Validación de autor
+        if (libro.getAutor() == null || libro.getAutor().getId() == null) {
+            throw new DAOException("El autor del libro es nulo o inválido.");
+        }
+
+        if (libro.esContenidoAdulto() == null) {
+            throw new DAOException("No se indico si el contenido es de tipo adulto o no.");
+        }
+
+        // Validación del año del libro
+        Integer anioLibro = libro.getAnio();
+        if (anioLibro == null) {
+            throw new DAOException("El año del libro no puede ser nulo.");
+        }
+        if (anioLibro < 0) {
+            throw new DAOException("El año del libro no puede ser negativo: " + anioLibro);
+        }
+        int anioActual = LocalDate.now().getYear();
+        if (anioLibro > anioActual) {
+            throw new DAOException("El año del libro no puede ser posterior al año actual (" + anioActual + "): " + anioLibro);
+        }
+
+        // Validación de fecha de publicación (si existe campo LocalDate fechaPublicacion)
+        if (libro.getAnio() != null) {
+            if (libro.getAnio() > LocalDate.now().getYear()) {
+                throw new DAOException("El año de publicación no puede ser posterior al año actual.");
+            }
+        }
+
+        // Validación del número de páginas
+        Integer numPaginas = libro.getNumPaginas();
+        if (numPaginas == null) {
+            throw new DAOException("El número de páginas no puede ser nulo.");
+        }
+
+        // (según requisito: no superar el año actual)
+        if (numPaginas < 1) {
+            throw new DAOException("El número de páginas del libro no puede ser menor a 1");
+        }
+
+        List<Genero> generos = libro.getGeneros();
+
+        if (generos == null || generos.isEmpty()) {
+            throw new DAOException("La lista de generos de esta vacia.");
+        }
+
+        int numGeneros = generos.size();
+
+        if (numGeneros == 2) {
+            boolean generosIguales = generos.get(0).getId().equals(generos.get(1).getId());
+            if (generosIguales) {
+                throw new DAOException("Los generos del libro no pueden ser iguales.");
+            }
         }
 
         EntityManager entityManager = Conexion.getInstance().crearConexion();
@@ -138,6 +207,39 @@ class LibroDAO implements ILibroDAO {
         try {
             transaction.begin();
 
+            // verificamos que existan los generos
+            List<Genero> generosGestionados = new ArrayList<>();
+            for (Genero genero : libro.getGeneros()) {
+                Genero g = entityManager.find(Genero.class, genero.getId());
+                if (g == null) {
+                    throw new DAOException("El género con ID " + genero.getId() + " no existe.");
+                }
+                generosGestionados.add(g);
+            }
+            
+            libro.setGeneros(generosGestionados);
+
+            Long idAutor = libro.getAutor().getId();
+                    
+            boolean autorExiste = entityManager.createQuery("SELECT COUNT(1) FROM Autor a WHERE a.id = :idAutor", Long.class)
+                    .setParameter("idAutor", idAutor)
+                    .getSingleResult() > 0;
+
+            if (!autorExiste) {
+                throw new DAOException("El autor del libro no existe.");
+            }
+
+            // checar si ya existe un libro con ese isbn
+            String isbn = libro.getIsbn();
+                    
+            boolean isbnExiste = entityManager.createQuery("SELECT COUNT(1) FROM Libro l WHERE l.isbn = :isbn", Long.class)
+                    .setParameter("isbn", isbn)
+                    .getSingleResult() > 0;
+
+            if (isbnExiste) {
+                throw new DAOException(String.format("Ya existe un libro con el ISBN especificado: %s", isbn));
+            }
+            
             boolean yaExiste = entityManager.createQuery(
                     "SELECT COUNT(l) FROM Libro l WHERE LOWER(l.nombre) = :nombre AND l.autor.id = :idAutor", Long.class)
                     .setParameter("nombre", libro.getNombre().toLowerCase())
@@ -162,7 +264,7 @@ class LibroDAO implements ILibroDAO {
                 transaction.rollback();
             }
             System.out.println("### ERROR DAO REGISTRAR LIBRO: " + e.getMessage());
-            throw new DAOException("Error al registrar el libro.");
+            throw new DAOException("Error al registrar el libro, por favor intente más tarde.");
         } finally {
             entityManager.close();
         }

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -42,6 +43,7 @@ public class Libro implements Serializable {
     @JsonProperty("nombre")
     private String nombre;
 
+    @Lob
     @Column(name = "descripcion", nullable = false)
     @JsonProperty("descripcion")
     private String descripcion;
