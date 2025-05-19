@@ -27,23 +27,32 @@ import java.util.Date;
  * @author neri
  */
 @WebServlet(name = "SvRegistro", urlPatterns = {"/registro"})
+/**
+ * Este servlet permite a los usuarios registrarse en la aplicación.
+ */
 public class SvRegistro extends HttpServlet {
 
     private IUsuariosDAO usuariosDAO = FabricaUsuariosDAO.getInstance().crearDAO();
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     
+    /**
+     * Muestra la página de registro.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/jsp/registro.jsp").forward(request, response);
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Procesa el registro de un nuevo usuario.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

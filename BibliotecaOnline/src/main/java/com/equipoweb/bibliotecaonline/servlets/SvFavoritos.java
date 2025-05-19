@@ -29,12 +29,22 @@ import java.util.Enumeration; // Para listar atributos de sesión
  * Incluye logging de sesión mejorado.
  */
 @WebServlet(name = "SvFavoritos", urlPatterns = {"/Favoritos"})
+/**
+ * Este servlet permite obtener la lista de libros favoritos de un usuario.
+ */
 public class SvFavoritos extends HttpServlet {
 
     private final IFavoritoLibroDAO favoritoDAO = FabricaFavoritoLibroDAO.getInstance().crearDAO();
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
+    /**
+     * Maneja las solicitudes HTTP GET para obtener la lista de libros favoritos de un usuario.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

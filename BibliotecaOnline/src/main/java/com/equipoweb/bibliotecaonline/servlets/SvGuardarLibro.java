@@ -28,17 +28,19 @@ import java.util.stream.Collectors;
  * @author neri
  */
 @WebServlet(name = "SvLibro", urlPatterns = {"/AgregarLibro"})
+/**
+ * Este servlet permite agregar un nuevo libro al sistema.
+ */
 public class SvGuardarLibro extends HttpServlet {
 
     private final ILibroDAO libroDAO = FabricaLibroDAO.getInstance().crearDAO();
     
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Maneja las solicitudes HTTP POST para agregar un nuevo libro al sistema.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -91,6 +93,3 @@ public class SvGuardarLibro extends HttpServlet {
         }
     }
 }
-
-
-

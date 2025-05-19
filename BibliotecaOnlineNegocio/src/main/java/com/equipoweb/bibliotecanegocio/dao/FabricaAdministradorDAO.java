@@ -10,6 +10,9 @@ import com.equipoweb.bibliotecanegocio.dao.interfaces.IAdministradorDAO;
  *
  * @author skevi
  */
+/**
+ * Fabrica para la creación de objetos AdministradorDAO.
+ */
 public class FabricaAdministradorDAO implements IFabricaDAO<IAdministradorDAO>{
     
     /**
@@ -40,6 +43,10 @@ public class FabricaAdministradorDAO implements IFabricaDAO<IAdministradorDAO>{
     /**
      * Funcion que obtiene la clase dao correspondiente a la fabrica
      * @return Intancia de la clase DAO.
+     */
+    /**
+     * Crea una instancia de AdministradorDAO.
+     * @return Una instancia de AdministradorDAO.
      */
     @Override
     public IAdministradorDAO crearDAO() {

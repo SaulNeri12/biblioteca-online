@@ -22,18 +22,20 @@ import java.io.IOException;
  * @author skevi
  */
 @WebServlet(name = "SvLoginAdmin", urlPatterns = {"/loginAdmin"})
+/**
+ * Este servlet permite a los administradores iniciar sesión en la aplicación.
+ */
 public class SvLoginAdmin extends HttpServlet {
 
     private IAdministradorDAO administradorDAO = FabricaAdministradorDAO.getInstance().crearDAO();
     
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Procesa el inicio de sesión del administrador.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -10,6 +10,13 @@ import javax.persistence.EntityManager;
  *
  * @author neri
  */
+/**
+ * Interface para la conexión a la base de datos.
+ */
 public interface IConexion {
+    /**
+     * Crea una nueva conexión con la base de datos.
+     * @return El EntityManager para la conexión.
+     */
     public EntityManager crearConexion();
 }

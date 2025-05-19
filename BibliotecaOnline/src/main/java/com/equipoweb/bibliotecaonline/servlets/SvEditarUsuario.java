@@ -24,6 +24,9 @@ import java.util.Date;
  * @author skevi
  */
 @WebServlet(name = "SvEditarUsuario", urlPatterns = {"/EditarUsuario"})
+/**
+ * Este servlet permite editar la información de un usuario existente.
+ */
 public class SvEditarUsuario extends HttpServlet {
 
     private IUsuariosDAO usuarios = FabricaUsuariosDAO.getInstance().crearDAO();
@@ -38,6 +41,13 @@ public class SvEditarUsuario extends HttpServlet {
      * @throws IOException 
      */
     @Override
+    /**
+     * Maneja las solicitudes HTTP PUT para actualizar la información de un usuario.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

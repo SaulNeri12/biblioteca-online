@@ -14,9 +14,13 @@ import java.util.List;
  *
  * @author skevi
  */
+/**
+ * Clase de prueba para la funcionalidad del buscador de libros.
+ */
 public class PruebasBuscador {
 
     /**
+     * Método principal para la prueba del buscador de libros.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -29,6 +33,9 @@ public class PruebasBuscador {
         String nombreAutor = ""; // Vacío, no se filtra por autor
 
         try {
+            /**
+             * Busca libros por nombre, género y autor.
+             */
             List<Libro> resultados = libroDAO.buscarLibro(nombreLibro, genero, nombreAutor);
             
             for (Libro libro : resultados) {

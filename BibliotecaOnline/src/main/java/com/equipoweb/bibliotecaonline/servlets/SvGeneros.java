@@ -22,6 +22,9 @@ import java.util.List;
  * @author neri
  */
 @WebServlet(name = "SvGeneros", urlPatterns = {"/generos"})
+/**
+ * Este servlet proporciona los géneros de libros disponibles en la aplicación.
+ */
 public class SvGeneros extends HttpServlet {
 
     IGeneroDAO generosDAO = FabricaGeneroDAO.getInstance().crearDAO();
@@ -35,6 +38,13 @@ public class SvGeneros extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    /**
+     * Maneja las solicitudes HTTP GET para obtener la lista de géneros de libros disponibles.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");

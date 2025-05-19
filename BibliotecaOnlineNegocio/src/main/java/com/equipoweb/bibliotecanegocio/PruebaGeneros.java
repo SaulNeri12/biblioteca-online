@@ -14,15 +14,22 @@ import java.util.List;
  *
  * @author skevi
  */
+/**
+ * Clase de prueba para la funcionalidad de géneros.
+ */
 public class PruebaGeneros {
 
     /**
+     * Método principal para la prueba de géneros.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         IGeneroDAO generoDAO = FabricaGeneroDAO.getInstance().crearDAO();
         
         try{
+            /**
+             * Obtiene la lista de todos los géneros.
+             */
             List<Genero> generos = generoDAO.obtenerGenerosTodos();
             
             for (Genero genero : generos) {

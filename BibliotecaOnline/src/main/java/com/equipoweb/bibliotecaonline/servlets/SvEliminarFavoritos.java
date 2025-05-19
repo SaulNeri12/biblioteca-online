@@ -25,10 +25,20 @@ import java.util.Enumeration; // Para listar atributos de sesión
  * Utiliza el ISBN del libro. Incluye logging de sesión mejorado.
  */
 @WebServlet(name = "SvEliminarFavoritos", urlPatterns = {"/EliminarFavorito"})
+/**
+ * Este servlet permite a los usuarios eliminar libros de su lista de favoritos.
+ */
 public class SvEliminarFavoritos extends HttpServlet {
 
     private final IFavoritoLibroDAO favoritoDAO = FabricaFavoritoLibroDAO.getInstance().crearDAO();
 
+    /**
+     * Maneja las solicitudes HTTP DELETE para eliminar un libro de la lista de favoritos del usuario.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
