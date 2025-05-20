@@ -3,6 +3,39 @@
 USE biblioteca_online;
 
 -- insercion de autores
+
+INSERT INTO autor (nombre, biografia) VALUES
+ ('F. Scott Fitzgerald', 'Autor estadounidense, conocido por "The Great Gatsby".'),
+ ('Herman Melville', 'Escritor estadounidense, autor de "Moby-Dick".'),
+ ('Leo Tolstoy', 'Escritor ruso, autor de "War and Peace".'),
+ ('Fyodor Dostoevsky', 'Escritor ruso, autor de "Crime and Punishment".'),
+ ('Jane Austen', 'Novelista inglesa, autora de "Pride and Prejudice".'),
+ ('Harper Lee', 'Autora estadounidense, conocida por "To Kill a Mockingbird".'),
+ ('George Orwell', 'Autor inglés, conocido por "1984".'),
+ ('Dan Brown', 'Autor estadounidense, famoso por "The Da Vinci Code".'),
+ ('Mary Shelley', 'Escritora inglesa, autora de "Frankenstein".'),
+ ('J.R.R. Tolkien', 'Filólogo y escritor británico, autor de "The Hobbit".'),
+ ('Bram Stoker', 'Escritor irlandés, autor de "Dracula".'),
+ ('J.D. Salinger', 'Escritor estadounidense, autor de "The Catcher in the Rye".'),
+ ('Lewis Carroll', 'Autor inglés, conocido por "Alice in Wonderland".'),
+ ('Suzanne Collins', 'Autora estadounidense, creadora de "The Hunger Games".'),
+ ('Ray Bradbury', 'Escritor estadounidense, autor de "Fahrenheit 451".'),
+ ('Aldous Huxley', 'Filósofo y escritor inglés, autor de "Brave New World".'),
+ ('C.S. Lewis', 'Ensayista y novelista británico, autor de "The Lion, the Witch and the Wardrobe".'),
+ ('Victor Hugo', 'Escritor francés, autor de "Les Miserables".'),
+ ('Miguel de Cervantes', 'Escritor español, autor de "Don Quixote".'),
+ ('Homer', 'Poeta griego de la antigüedad, autor de "The Iliad".'),
+ ('Dante Alighieri', 'Poeta italiano, autor de "The Divine Comedy".'),
+ ('James Joyce', 'Escritor irlandés, autor de "Ulysses".'),
+ ('Charlotte Brontë', 'Novelista inglesa, autora de "Jane Eyre".'),
+ ('Emily Brontë', 'Poeta y novelista inglesa, autora de "Wuthering Heights".'),
+ ('Alexandre Dumas', 'Escritor francés, autor de "The Count of Monte Cristo".'),
+ ('Gustave Flaubert', 'Escritor francés, autor de "Madame Bovary".'),
+ ('Paulo Coelho', 'Autor brasileño, conocido por "The Alchemist".'),
+ ('Stephen King', 'Escritor estadounidense, autor de "The Shining".'),
+ ('Agatha Christie', 'Novelista británica, autora de "Murder on the Orient Express".'),
+ ('Mark Twain', 'Escritor estadounidense, autor de "Adventures of Huckleberry Finn".');
+
 INSERT INTO autor (nombre, biografia) VALUES
 ('Gabriel Garcia Marquez', 'Escritor colombiano, ganador del Premio Nobel, autor de "Cien anos de soledad".'),
 ('J.K. Rowling', 'Autora britanica famosa por la serie de libros de Harry Potter.'),

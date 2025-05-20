@@ -80,7 +80,6 @@ document.querySelector('form').addEventListener('submit', function (event) {
                     //agregamos una nueva tarjeta por cada resultado encontrado
                     div.innerHTML = `
                         <h3>${libro.nombre}</h3>
-                        <p><strong>Portada:</strong> aqui va la imagen pero todavia no hay</p>
                         <p><strong>Autor:</strong> ${libro.autor ? libro.autor.nombre : 'Desconocido'}</p>
                         <p><strong>ISBN:</strong> ${libro.isbn}</p>
                         <p><strong>Descripción:</strong> ${libro.descripcion}</p>

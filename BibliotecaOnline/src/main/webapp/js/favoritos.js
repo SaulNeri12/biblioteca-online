@@ -130,19 +130,19 @@ function crearCartaLibro(libro, numero = 0, esFavorito = false) {
     const idAutor = libro.autor?.id || '0'; // Usar un ID por defecto o null si prefieres
 
     return `
-        <div class="carta-libro" data-numero-carta="${numero}" data-isbn-carta="${libro.isbn}">
+        <div class="carta-libro" data-numero-carta="${numero}" data-isbn-carta="${libro.isbn}" title="${libro.descripcion}">
              <span class="icono-favorito ${claseActivo}" data-isbn="${libro.isbn}" title="Marcar como favorito">
                  <i class="${claseIconoFavorito}"></i>
              </span>
-             <div class="portada-contenedor">
+             <div class="portada-contenedor" title="${libro.descripcion}">
                  <img class="portada-libro"
                       src="${portada_libro}"
                       alt="Portada de ${libro.nombre || 'Libro sin título'}"
                       onerror="this.onerror=null; this.src='${default_portada}';"> {/* Manejo de error de imagen */}
             </div>
-             <div class="informacion-libro">
+             <div class="informacion-libro" title="${libro.descripcion}">
                  <div class="contenedor-titulo-libro">
-                     <p class="titulo-libro">${libro.nombre || 'Sin título'}</p>
+                     <p class="titulo-libro" title="${libro.descripcion}">${libro.nombre || 'Sin título'}</p>
                      <p class="autor-libro" data-id-autor="${idAutor}">${nombreAutor}</p>
                  </div>
                  <div class="pie-carta-libro">

@@ -67,7 +67,7 @@
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Telefono</th>
-                        <th>Fecha de Registro</th>
+                        <th>Fecha de Nacimiento</th>
                         <th colspan="2">Opciones</th>
                     </tr>
                 </thead>
@@ -134,7 +134,7 @@
                         <input type="text" id="telefono-usuario" required>
                     </div>
                     <div class="form-group">
-                        <label for="fecha-registro-usuario">Fecha de registro:</label>
+                        <label for="fecha-registro-usuario">Fecha de Nacimiento:</label>
                         <input type="date" id="fecha-registro-usuario" required>
                     </div>
                     <div class="dialog-buttons">

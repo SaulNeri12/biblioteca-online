@@ -41,90 +41,71 @@
                             // session.setAttribute("usuario", usuarioLogueado);
                             // session.setAttribute("usuarioId", usuarioLogueado.getId());
                             // Los servlets de Favoritos necesitan "usuarioId".
-
                             if (usuario != null) {
                                 // --- Navegación para Usuario Logueado ---
                         %>
-                            <a href="${pageContext.request.contextPath}/perfil" class="nav-link">Mi Perfil</a> <%-- Usar JSTL/EL es preferible a scriptlets --%>
+                        <!--
+                        <a href="${pageContext.request.contextPath}/perfil" class="nav-link">Mi Perfil</a> <%-- Usar JSTL/EL es preferible a scriptlets --%>
+                        -->
+                        <%-- Botón para abrir el modal de favoritos --%>
+                        <button id="btn-ver-favoritos" class="nav-link" title="Ver mis libros favoritos">
+                            <i class="fas fa-star"></i> Mis Favoritos
+                        </button>
 
-                            <%-- Botón para abrir el modal de favoritos --%>
-                            <button id="btn-ver-favoritos" class="nav-link" title="Ver mis libros favoritos">
-                                <i class="fas fa-star"></i> Mis Favoritos
-                            </button>
-
-                            <a href="${pageContext.request.contextPath}/logout" class="nav-link">Cerrar Sesión</a>
+                        <a href="${pageContext.request.contextPath}/logout" class="nav-link">Cerrar Sesión</a>
                         <%
-                            } else {
-                                // --- Navegación para Usuario NO Logueado ---
+                        } else {
+                            // --- Navegación para Usuario NO Logueado ---
                         %>
-                            <a href="${pageContext.request.contextPath}/login" class="nav-link neon-button">Iniciar Sesión</a>
-                            <a href="${pageContext.request.contextPath}/registro" class="nav-link neon-button">Crear Cuenta</a>
+                        <a href="${pageContext.request.contextPath}/login" class="nav-link neon-button">Iniciar Sesión</a>
+                        <a href="${pageContext.request.contextPath}/registro" class="nav-link neon-button">Crear Cuenta</a>
                         <%
                             } // Fin del else
                         %>
+
                     </nav>
                 </div>
             </header>
-      <%
-                            // Obtener usuario de la sesión
-                            Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-                            // *** Recordatorio Crucial ***
-                            // Asegúrate que en tu Servlet de Login, al validar correctamente al usuario,
-                            // guardas tanto el objeto Usuario como su ID (Long) en la sesión:
-                            // session.setAttribute("usuario", usuarioLogueado);
-                            // session.setAttribute("usuarioId", usuarioLogueado.getId());
-                            // Los servlets de Favoritos necesitan "usuarioId".
 
-                            if (usuario != null) {
-                                // --- Navegación para Usuario Logueado ---
-                        %>
-                            <a href="${pageContext.request.contextPath}/perfil" class="nav-link">Mi Perfil</a> <%-- Usar JSTL/EL es preferible a scriptlets --%>
-
-                            <%-- Botón para abrir el modal de favoritos --%>
-                            <button id="btn-ver-favoritos" class="nav-link" title="Ver mis libros favoritos">
-                                <i class="fas fa-star"></i> Mis Favoritos
-                            </button>
-
-                            <a href="${pageContext.request.contextPath}
             <%-- Contenido Principal (cambia según si el usuario está logueado) --%>
             <main class="main-content">
-                <% if (usuario != null) { %>
-                    <%-- Sección de Información del Usuario Logueado --%>
-                    <section class="user-info-section">
-                         <div class="card user-card">
-                             <h2 class="card-title">Datos de Usuario</h2>
-                             <div class="user-details">
-                                 <div class="detail-item">
-                                     <span class="detail-label">Nombre:</span>
-                                     <%-- Usar JSTL/EL <c:out value="${usuario.nombre}"/> es más seguro que scriptlets --%>
-                                     <span class="detail-value"><%= usuario.getNombre() != null ? usuario.getNombre() : "" %></span>
-                                 </div>
-                                 <div class="detail-item">
-                                     <span class="detail-label">Email:</span>
-                                     <span class="detail-value"><%= usuario.getEmail() != null ? usuario.getEmail() : "" %></span>
-                                 </div>
-                                 <div class="detail-item">
-                                     <span class="detail-label">Teléfono:</span>
-                                     <span class="detail-value"><%= usuario.getTelefono() != null ? usuario.getTelefono() : "" %></span>
-                                 </div>
-                                 <div class="detail-item">
-                                     <span class="detail-label">Fecha de Nacimiento:</span>
-                                     <%-- Formatear la fecha sería ideal aquí --%>
-                                     <span class="detail-value"><%= usuario.getFechaNacimiento() != null ? usuario.getFechaNacimiento().toString() : "" %></span>
-                                 </div>
-                             </div>
-                         </div>
-                    </section>
+                <% if (usuario != null) {%>
+                <%-- Sección de Información del Usuario Logueado --%>
+                <section class="user-info-section">
+                    <div class="card user-card">
+                        <h2 class="card-title">Datos de Usuario</h2>
+                        <div class="user-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Nombre:</span>
+                                <%-- Usar JSTL/EL <c:out value="${usuario.nombre}"/> es más seguro que scriptlets --%>
+                                <span class="detail-value"><%= usuario.getNombre() != null ? usuario.getNombre() : ""%></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value"><%= usuario.getEmail() != null ? usuario.getEmail() : ""%></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Teléfono:</span>
+                                <span class="detail-value"><%= usuario.getTelefono() != null ? usuario.getTelefono() : ""%></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Fecha de Nacimiento:</span>
+                                <%-- Formatear la fecha sería ideal aquí --%>
+                                <span class="detail-value"><%= usuario.getFechaNacimiento() != null ? usuario.getFechaNacimiento().toString() : ""%></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <% } else { %>
-                     <%-- Sección de Bienvenida para Usuarios NO Logueados --%>
-                    <section class="welcome-section">
-                         <div class="welcome-card">
-                             <h2 class="welcome-title">Bienvenido a la Biblioteca Online</h2>
-                             <p class="welcome-message">Explora nuestra colección de libros digitales. Para acceder a todas las funcionalidades, inicia sesión o crea una cuenta.</p>
-                         </div>
-                     </section>
-                <% } %>
+                <%-- Sección de Bienvenida para Usuarios NO Logueados --%>
+                <section class="welcome-section">
+                    <div class="welcome-card">
+                        <h2 class="welcome-title">Bienvenido a la Biblioteca Online</h2>
+                        <p class="welcome-message">Explora nuestra colección de libros digitales. Para acceder a todas las funcionalidades, inicia sesión o crea una cuenta.</p>
+                    </div>
+                </section>
+                <% }%>
 
                 <%-- Sección donde se cargarán los libros dinámicamente --%>
                 <section class="books-section">
@@ -138,20 +119,20 @@
 
             <%-- Pie de página --%>
             <footer class="footer">
-                <p>&copy; <%= java.time.Year.now().getValue() %> BibliotecaOnline - Todos los derechos reservados</p> <%-- Año dinámico --%>
+                <p>&copy; <%= java.time.Year.now().getValue()%> BibliotecaOnline - Todos los derechos reservados</p> <%-- Año dinámico --%>
             </footer>
 
         </div> <%-- Fin de .container --%>
 
         <%-- Estructura HTML del Modal de Favoritos (fuera del .container principal es común) --%>
         <dialog id="modal-favoritos" class="dialog-favoritos" closedby="any">
-          <h2 class="modal-title">Mis Libros Favoritos</h2>
-          <%-- Contenedor donde el JS cargará las tarjetas de libros favoritos --%>
-          <div id="contenedor-favoritos-modal" class="books-container modal-books-container">
-             <p class="loading-indicator">Cargando favoritos...</p> <%-- Indicador inicial --%>
-          </div>
-          <%-- Acciones del modal (botón de cierre) --%>
-          
+            <h2 class="modal-title">Mis Libros Favoritos</h2>
+            <%-- Contenedor donde el JS cargará las tarjetas de libros favoritos --%>
+            <div id="contenedor-favoritos-modal" class="books-container modal-books-container">
+                <p class="loading-indicator">Cargando favoritos...</p> <%-- Indicador inicial --%>
+            </div>
+            <%-- Acciones del modal (botón de cierre) --%>
+
         </dialog>
 
         <%-- Inclusión de Scripts JavaScript al final del body --%>

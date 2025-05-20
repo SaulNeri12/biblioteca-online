@@ -67,13 +67,17 @@ public class SvRegistro extends HttpServlet {
         try {
             fechaNac = this.formatoFecha.parse(request.getParameter("fecha_nac"));
         } catch (ParseException ex) {
+            
+            response.sendRedirect(request.getContextPath() + "/registro");
+            
+            /*
             // preparamos la respuesta json
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             
             ErrorRespuesta error = new ErrorRespuesta("El formato de fecha es incorrecto.");
             
-            response.getWriter().write(error.toString());
+            response.getWriter().write(error.toString());*/
             return;
         }
         
@@ -94,6 +98,10 @@ public class SvRegistro extends HttpServlet {
         try {
             this.usuariosDAO.registrarUsuario(usuario);
         } catch (DAOException ex) {
+            
+            response.sendRedirect(request.getContextPath() + "/registro");
+            
+            /*
             // preparamos la respuesta json
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -101,6 +109,7 @@ public class SvRegistro extends HttpServlet {
             ErrorRespuesta error = new ErrorRespuesta(ex.getMessage());
             
             response.getWriter().write(error.toString());
+*/
             return;
         }
         
