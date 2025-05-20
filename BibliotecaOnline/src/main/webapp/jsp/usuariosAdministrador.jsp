@@ -1,6 +1,6 @@
 <%-- 
     Document   : usuariosAdmin
-    Created on : 6 may 2025, 1:33:44 p.m.
+    Created on : 6 may 2025, 1:33:44 p.m.
     Author     : nerix
 --%>
 
@@ -20,6 +20,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Administracion | Usuarios Registrados</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/usuariosAdmin.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     </head>
     <body>
         <%
@@ -32,11 +33,13 @@
             IUsuariosDAO usuariosDAO = FabricaUsuariosDAO.getInstance().crearDAO();
         %>
 
-        <a href="${pageContext.request.contextPath}/jsp/indexAdministrador.jsp">Inicio</a>
+        <a href="${pageContext.request.contextPath}/jsp/indexAdministrador.jsp" class="btn-inicio">← Volver al Inicio</a>
 
         <h2>Usuarios Registrados</h2>
 
         <div class="usuarios-lista-contenedor">
+            <input type="text" id="searchInput" placeholder="Buscar usuario..." class="search-input">
+            
             <%
                 List<Usuario> usuarios = null;
 
@@ -55,7 +58,7 @@
             <%
                 }
 
-                if (!usuarios.isEmpty()) {
+                if (usuarios != null && !usuarios.isEmpty()) {
             %>
             <table class="users-table">
                 <thead>
@@ -65,16 +68,13 @@
                         <th>Correo</th>
                         <th>Telefono</th>
                         <th>Fecha de Registro</th>
-                        <th>Opciones</th>
+                        <th colspan="2">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <%
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    %>
-                    <%
                         for (Usuario u : usuarios) {
-
                     %>
                     <tr data-fila-id="<%= u.getId()%>">
                         <td><%= u.getId()%></td>
@@ -90,39 +90,59 @@
                         </td>
                     </tr>
                     <%
-                            }
                         }
+                    }
                     %>  
                 </tbody>
             </table>
         </div>
         
         <!-- ventana de dialogo para la confirmacion de eliminacion -->
-        <dialog id="dialog-eliminar" closedby="any">
+<dialog id="dialog-eliminar" class="login-box">
             <div class="contenido-dialog-eliminar">
-                <p>¿Esta seguro que desea eliminar al usuario?</p>
-                <p>esta accion no puede ser desecha</p>
-                <form method="dialog">
-                    <button id="btn-eliminar">
+                <h3>Confirmar eliminación</h3>
+                <p>¿Está seguro que desea eliminar al usuario?</p>
+                <p>Esta acción no puede ser deshecha</p>
+                <div class="dialog-buttons">
+<button id="btn-eliminar" class="neon-button">
                         Eliminar
+                    <span></span><span></span><span></span><span></span>
                     </button>
-                </form>
+<button id="btn-cancelar-eliminar" class="neon-button">
+                        Cancelar
+                    <span></span><span></span><span></span><span></span>
+                    </button>
+                </div>
             </div>
         </dialog>
         
         <!-- ventana de dialogo para la edicion de un usuario -->
-        <dialog id="dialog-editar" closedby="any">  
+<dialog id="dialog-editar" class="login-box">
             <div class="contenido-dialog-editar">
-                <form class="form-editar-usuario" method="dialog">
-                    <label>Nombre:</label>
-                    <input type="text" id="nombre-usuario" required><br>
-                    <label>Correo:</label>
-                    <input type="text" id="correo-usuario" required><br>
-                    <label>Telefono:</label>
-                    <input type="text" id="telefono-usuario" required><br>
-                    <label>Fecha de registro:</label>
-                    <input type="date" id="fecha-registro-usuario" required><br>
-                    <button id="btn-actualizar">Actualizar</button>
+                <h3>Editar usuario</h3>
+                <form class="form-editar-usuario">
+                    <div class="form-group">
+                        <label for="nombre-usuario">Nombre:</label>
+                        <input type="text" id="nombre-usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo-usuario">Correo:</label>
+                        <input type="email" id="correo-usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono-usuario">Teléfono:</label>
+                        <input type="text" id="telefono-usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-registro-usuario">Fecha de registro:</label>
+                        <input type="date" id="fecha-registro-usuario" required>
+                    </div>
+                    <div class="dialog-buttons">
+<button id="btn-actualizar" class="neon-button" type="button">Actualizar</button>
+<span></span><span></span><span></span><span></span>
+<button id="btn-cancelar-editar" class="neon-button" type="button">Cancelar</button>
+<span></span><span></span><span></span><span></span>
+                    </div>
                 </form>
             </div>
         </dialog>

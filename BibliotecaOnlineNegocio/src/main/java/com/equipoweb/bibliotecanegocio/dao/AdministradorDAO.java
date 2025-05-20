@@ -18,6 +18,10 @@ import javax.persistence.TypedQuery;
  * 
  * @author skevi
  */
+/**
+ * Clase DAO para la entidad Administrador.
+ * Implementa la interfaz IAdministradorDAO y proporciona métodos para acceder y manipular los datos de los administradores en la base de datos.
+ */
 class AdministradorDAO implements IAdministradorDAO {
 
     /**
@@ -53,6 +57,13 @@ class AdministradorDAO implements IAdministradorDAO {
      * @param contrasena la contraseña del usuario.
      * @return true si las credenciales son correctas y se puede iniciar sesión, false en caso contrario.
      * @throws DAOException si ocurre un error al verificar las credenciales.
+     */
+    /**
+     * Inicia la sesión de un administrador.
+     * @param correo Correo electrónico del administrador.
+     * @param contrasena Contraseña del administrador.
+     * @return El objeto Administrador si las credenciales son correctas, null si no lo son.
+     * @throws DAOException Si ocurre un error al acceder a la base de datos.
      */
     @Override
     public Administrador iniciarSesion(String correo, String contrasena) throws DAOException {

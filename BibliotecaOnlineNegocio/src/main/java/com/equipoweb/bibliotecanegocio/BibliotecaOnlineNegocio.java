@@ -29,9 +29,14 @@ import java.util.logging.Logger;
  *
  * @author neri
  */
-//public class BibliotecaOnlineNegocio {
-//
-//    public static void main(String[] args) {
+/**
+ * Clase principal del proyecto BibliotecaOnlineNegocio.
+ * Contiene métodos para interactuar con las diferentes funcionalidades del negocio.
+ */
+public class BibliotecaOnlineNegocio {
+
+    //
+    //    public static void main(String[] args) {
 //
 //        FabricaLibroDAO fabricaLibroDAO = FabricaLibroDAO.getInstance();
 //        ILibroDAO libroDAO = fabricaLibroDAO.crearDAO();
@@ -162,4 +167,5 @@ import java.util.logging.Logger;
 //            Logger.getLogger(BibliotecaOnlineNegocio.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-//}
+//
+}

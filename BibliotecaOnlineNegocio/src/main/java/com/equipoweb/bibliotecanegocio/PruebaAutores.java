@@ -14,15 +14,22 @@ import java.util.List;
  *
  * @author skevi
  */
+/**
+ * Clase de prueba para la funcionalidad de autores.
+ */
 public class PruebaAutores {
 
     /**
+     * Método principal para la prueba de autores.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         IAutorDAO autorDAO = FabricaAutorDAO.getInstance().crearDAO();
         
         try{
+            /**
+             * Obtiene la lista de todos los autores.
+             */
             List<Autor> autores = autorDAO.obtenerAutoresTodos();
             
             for (Autor autor : autores) {

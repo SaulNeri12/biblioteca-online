@@ -13,9 +13,13 @@ import com.equipoweb.bibliotecanegocio.entidades.Administrador;
  *
  * @author skevi
  */
+/**
+ * Clase de prueba para la funcionalidad de inicio de sesión.
+ */
 public class PruebaInicioSesion {
 
     /**
+     * Método principal para la prueba de inicio de sesión.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -27,6 +31,9 @@ public class PruebaInicioSesion {
         String contrasena = "123456"; // Asegúrate de que este usuario exista en la base de datos
 
         try {
+            /**
+             * Inicia la sesión del administrador.
+             */
             Administrador admin = adminDAO.iniciarSesion(correo, contrasena);
 
             if (admin != null) {

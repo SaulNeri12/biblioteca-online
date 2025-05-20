@@ -26,10 +26,22 @@ import java.util.Enumeration; // Para listar atributos de sesión
  * Utiliza el ISBN del libro. Incluye logging de sesión mejorado.
  */
 @WebServlet(name = "SvAgregarFavoritos", urlPatterns = {"/AgregarFavorito"})
+/**
+ * Este servlet permite a los usuarios agregar libros a su lista de favoritos.
+ * Procesa las solicitudes POST para agregar un libro a la base de datos de favoritos del usuario.
+ */
 public class SvAgregarFavoritos extends HttpServlet {
 
     private final IFavoritoLibroDAO favoritoDAO = FabricaFavoritoLibroDAO.getInstance().crearDAO();
 
+    /**
+     * Procesa las solicitudes POST para agregar un libro a la lista de favoritos del usuario.
+     *
+     * @param request  Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException      Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

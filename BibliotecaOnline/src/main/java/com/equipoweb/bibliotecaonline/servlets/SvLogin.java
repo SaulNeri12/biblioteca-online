@@ -25,6 +25,9 @@ import jakarta.servlet.http.HttpSession;
  * modificado by caarl :D
  */
 @WebServlet(name = "SvLogin", urlPatterns = {"/login"})
+/**
+ * Este servlet permite a los usuarios iniciar sesión en la aplicación.
+ */
 public class SvLogin extends HttpServlet {
     
     private IUsuariosDAO usuariosDAO = FabricaUsuariosDAO.getInstance().crearDAO();
@@ -32,12 +35,11 @@ public class SvLogin extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Muestra la pantalla de inicio de sesión.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,12 +49,11 @@ public class SvLogin extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Procesa el inicio de sesión del usuario.
+     * @param request Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

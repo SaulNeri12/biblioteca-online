@@ -26,6 +26,9 @@ import java.util.Map;
  * @author neri
  */
 @WebServlet(name = "SvAutor", urlPatterns = {"/autor"})
+/**
+ * Este servlet maneja la visualización, búsqueda, registro y actualización de los autores registrados en el sistema.
+ */
 public class SvAutor extends HttpServlet {
 
     IAutorDAO autorDAO = FabricaAutorDAO.getInstance().crearDAO();
@@ -39,6 +42,14 @@ public class SvAutor extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    /**
+     * Maneja las solicitudes HTTP GET para obtener la lista de autores.
+     *
+     * @param request  Objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response Objeto HttpServletResponse que contiene la respuesta del servlet.
+     * @throws ServletException Si el servlet encuentra un problema al manejar la solicitud.
+     * @throws IOException      Si ocurre un error de entrada/salida al enviar la respuesta.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

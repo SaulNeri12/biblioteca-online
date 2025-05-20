@@ -15,7 +15,14 @@ import java.util.Date;
  *
  * @author Saul Neri
  */
+/**
+ * Clase para la edición de usuarios.
+ */
 public class EdicionUsuarios {
+    /**
+     * Método principal para la edición de usuarios.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         IUsuariosDAO usuarios = FabricaUsuariosDAO.getInstance().crearDAO();
 
@@ -57,4 +64,3 @@ public class EdicionUsuarios {
         }
     }
 }
-

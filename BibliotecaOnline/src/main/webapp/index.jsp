@@ -65,7 +65,28 @@
                     </nav>
                 </div>
             </header>
+      <%
+                            // Obtener usuario de la sesión
+                            Usuario usuario = (Usuario) session.getAttribute("usuario");
 
+                            // *** Recordatorio Crucial ***
+                            // Asegúrate que en tu Servlet de Login, al validar correctamente al usuario,
+                            // guardas tanto el objeto Usuario como su ID (Long) en la sesión:
+                            // session.setAttribute("usuario", usuarioLogueado);
+                            // session.setAttribute("usuarioId", usuarioLogueado.getId());
+                            // Los servlets de Favoritos necesitan "usuarioId".
+
+                            if (usuario != null) {
+                                // --- Navegación para Usuario Logueado ---
+                        %>
+                            <a href="${pageContext.request.contextPath}/perfil" class="nav-link">Mi Perfil</a> <%-- Usar JSTL/EL es preferible a scriptlets --%>
+
+                            <%-- Botón para abrir el modal de favoritos --%>
+                            <button id="btn-ver-favoritos" class="nav-link" title="Ver mis libros favoritos">
+                                <i class="fas fa-star"></i> Mis Favoritos
+                            </button>
+
+                            <a href="${pageContext.request.contextPath}
             <%-- Contenido Principal (cambia según si el usuario está logueado) --%>
             <main class="main-content">
                 <% if (usuario != null) { %>

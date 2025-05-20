@@ -1,8 +1,10 @@
 /* 
     Created on : 6 may 2025
     Author     : sebastian
-    Description: Estilos para la página de usuarios registrados con efecto neón
+    Description: Estilos para la pรกgina de usuarios registrados con efecto neรณn
 */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
     --primary-color: #050a18;
@@ -11,6 +13,9 @@
     --text-color: #f8f8f8;
     --table-bg: rgba(0, 0, 0, 0.5);
     --font-family: 'Poppins', sans-serif;
+    --input-bg: rgba(14, 255, 255, 0.1);
+    --error-color: #ff3c5e;
+    --success-color: #4cff64;
 }
 
 * {
@@ -35,58 +40,388 @@ h2 {
     text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
     margin-bottom: 20px;
     text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
 }
 
-a {
+h3 {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px var(--secondary-color);
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.btn-inicio {
     color: var(--accent-color);
     text-decoration: none;
     font-size: 16px;
     margin-bottom: 20px;
     display: inline-block;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--accent-color);
 }
 
-a:hover {
-    color: var(--secondary-color);
-    text-shadow: 0 0 5px var(--secondary-color);
+.btn-inicio:hover {
+    color: var(--primary-color);
+    background-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+    transform: translateY(-2px);
 }
 
 .usuarios-lista-contenedor {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     background: var(--table-bg);
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6), 0 0 10px var(--secondary-color);
 }
 
-table {
+/* Estilos para el campo de bรบsqueda */
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px var(--secondary-color);
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.search-input::placeholder {
+    color: rgba(248, 248, 248, 0.6);
+}
+
+/* Tabla de usuarios */
+.users-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px var(--secondary-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
 }
 
-table thead {
-    background: var(--secondary-color);
+.users-table thead {
+    background-color: var(--secondary-color);
     color: var(--primary-color);
+    text-shadow: 0 0 5px var(--primary-color);
 }
 
-table th,
-table td {
-    padding: 10px;
+.users-table th,
+.users-table td {
+    padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid var(--text-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-table tr:hover {
-    background: rgba(14, 255, 255, 0.1);
+.users-table tbody tr {
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.users-table tbody tr:hover {
+    background-color: rgba(14, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Alertas de usuarios */
 .usuarios-alerta {
     background: rgba(255, 54, 199, 0.1);
     color: var(--accent-color);
-    padding: 10px;
+    padding: 15px;
     border-radius: 5px;
     text-align: center;
     margin-top: 20px;
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Botones */
+.btn-eliminar-usuario,
+.btn-editar-usuario,
+.btn-confirmar,
+.btn-cancelar {
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-align: center;
+    min-width: 80px;
+}
+
+.btn-eliminar-usuario {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 5px var(--accent-color);
+}
+
+.btn-eliminar-usuario:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.btn-editar-usuario {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    box-shadow: 0 0 5px var(--secondary-color);
+}
+
+.btn-editar-usuario:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.neon-button {
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-align: center;
+    min-width: 80px;
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    box-shadow: 0 0 5px var(--secondary-color);
+}
+
+.neon-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Estilos para el selector de fecha con efecto neón */
+input[type="date"] {
+  /* Estilos base para el selector de fecha */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  background-color: var(--primary-color); /* Añade el color de fondo */
+  color: var(--text-color); /* Añade el color del texto */
+}
+
+input[type="date"]:focus {
+  /* Estilos para el selector de fecha enfocado (efecto neón) */
+  outline: none;
+  box-shadow: 0 0 5px var(--secondary-color); /* Ajusta el color y la intensidad del neón */
+  border-color: var(--secondary-color); /* Cambia el color del borde al color neón */
+}
+
+
+/* Estilos para los diรกlogos */
+dialog {
+    border: none;
+    border-radius: 10px;
+    background: rgba(5, 10, 24, 0.95);
+    padding: 25px;
+    color: var(--text-color);
+    box-shadow: 0 0 15px var(--secondary-color), 0 0 30px var(--accent-color);
+    max-width: 400px;
+    width: 100%;
+    
+    /* Posicionamiento fijo en el centro */
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    /* Otros estilos */
+    margin: 0;
+    font-family: var(--font-family);
+    animation: fadeIn 0.3s ease;
+    z-index: 1000;
+}
+
+/* Asegurar que el fondo del diรกlogo funcione correctamente */
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+/* La animaciรณn que posiblemente estรก causando problemas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Corregir posible problema de conflicto con la animaciรณn */
+dialog[open] {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, -50%) !important;
+}
+
+/* Para asegurar que los diรกlogos sean visibles sobre todo el contenido */
+#dialog-eliminar,
+#dialog-editar {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Mejorar la visibilidad de los botones en diรกlogos */
+.dialog-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Estilos para el formulario de editar usuario */
+.form-editar-usuario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+dialog label {
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 15px;
+}
+
+dialog input {
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+dialog input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+/* Estilos para el datepicker dentro del diálogo */
+dialog ::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Invierte los colores para que se vea bien en el fondo oscuro */
+    cursor: pointer;
+}
+
+dialog input[type="date"] {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-color);
+}
+
+dialog input[type="date"]:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+/* Estilos para el datepicker desplegado (calendario) */
+dialog input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    color: var(--text-color);
+}
+
+dialog input[type="date"]::-webkit-datetime-edit {
+    color: var(--text-color);
+}
+
+dialog input[type="date"]::-webkit-datetime-edit-year-field,
+dialog input[type="date"]::-webkit-datetime-edit-month-field,
+dialog input[type="date"]::-webkit-datetime-edit-day-field {
+    color: var(--text-color);
+}
+
+dialog input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    box-shadow: 0 0 5px var(--secondary-color);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 5px var(--secondary-color);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--secondary-color), 0 0 25px var(--accent-color);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--secondary-color);
+    }
+}
+
+/* Clase para el overlay cuando el diรกlogo estรก abierto */
+body.dialog-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .usuarios-lista-contenedor {
+        padding: 15px;
+    }
+    
+    .users-table th,
+    .users-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    dialog {
+        max-width: 90%;
+        padding: 20px;
+    }
 }
